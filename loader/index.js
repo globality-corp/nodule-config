@@ -1,7 +1,7 @@
 class Loader {
 
   constructor(secretLoaderPrefix = "MICROCOSM") {
-    this.secretPrefix = secretLoaderPrefix;
+    this.secretLoaderPrefix = secretLoaderPrefix;
   }
 
   appName = () => {
@@ -26,9 +26,13 @@ class Loader {
   };
 
   shouldLoadSecrets = () => {
-    return this.all.some((key) => {
-      const regexp = new RegExp(`^${this.secretLoaderPrefix()}__`, 'g');
+    const keys = Object.keys(process.env);
+
+    return keys.some((key) => {
+      const regexp = new RegExp(`^${this.secretLoaderPrefix}_`, 'g');
       const matches = key.match(regexp);
+      console.log(key);
+      console.log(matches);
       return matches && matches.length > 0;
     });
   };

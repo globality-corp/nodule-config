@@ -19,13 +19,15 @@ test('Should have the correct length of keys', () => {
 
 describe("shouldLoadSecrets", () => {
   test('Loading secrets should be false', () => {
+    process.env.MICROCOSM_ENV = "dev";
     const loader = new Loader();
-    expect(loader.all().length).toBe(8);
+    expect(loader.shouldLoadSecrets()).toBe(true);
   });
 
   test('Loading secrets should be false', () => {
+    delete process.env.MICROCOSM_ENV;
     const loader = new Loader();
-    expect(loader.all().length).toBe(8);
+    expect(loader.shouldLoadSecrets()).toBe(false);
   });
 });
 
