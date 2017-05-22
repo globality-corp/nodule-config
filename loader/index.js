@@ -1,5 +1,4 @@
 class Loader {
-
   constructor(secretLoaderPrefix = "MICROCOSM") {
     this.secretLoaderPrefix = secretLoaderPrefix;
   }
@@ -35,7 +34,6 @@ class Loader {
     });
   };
 }
-
 
 module.exports = {
   Loader,
