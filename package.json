@@ -9,6 +9,9 @@
   },
   "author": "Avi Zurel",
   "license": "MIT",
+  "dependencies": {
+    "credstash": "https://github.com/KensoDev/node-credstash.git#hotfix/credstash"
+  },
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
