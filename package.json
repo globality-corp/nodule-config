@@ -4,6 +4,7 @@
   "description": "Global configuration support for Node projects",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint .",
     "test": "jest"
   },
   "author": "Avi Zurel",
@@ -14,6 +15,7 @@
     "babel-jest": "^20.0.3",
     "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-class-constructor-call": "^6.24.1",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "babel-plugin-transform-es2015-parameters": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
@@ -21,7 +23,10 @@
     "babel-plugin-transform-strict-mode": "^6.24.1",
     "babel-preset-env": "^1.5.1",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.2.0",
     "jest": "^20.0.3",
     "regenerator-runtime": "^0.10.5"
   }

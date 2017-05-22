@@ -1,24 +1,23 @@
-'use strict';
-
 const parse = (val) => {
-  val = val.toString().toLowerCase();
+  const stringVal = val.toString().toLowerCase();
 
-  if (val === "0" || val === "false") {
+  if (stringVal === "0" || stringVal === "false") {
     return false;
   }
 
-  if (val === "1" || val === "true") {
+  if (stringVal === "1" || stringVal === "true") {
     return true;
   }
 
   return null;
-}
+};
 
 const isBoolean = (val) => {
-  return parse(val) !== null;
-}
+  const parsedValue = parse(val);
+  return parsedValue !== null;
+};
 
 module.exports = {
   parse,
-  isBoolean
-}
+  isBoolean,
+};

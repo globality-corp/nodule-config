@@ -1,3 +1,5 @@
+import { Loader } from './loader';
+
 module.exports = {
-  loader
-}
+  Loader,
+};
