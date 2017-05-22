@@ -1,0 +1,19 @@
+machine:
+  # This makes use of a cache for reuse between builds
+  environment:
+    PATH: "${PATH}:${HOME}/node-global-config/node_modules/.bin"
+  pre:
+    - mkdir ~/.yarn-cache
+  node:
+    version: 6.9.5
+
+dependencies:
+  cache_directories:
+    - ~/.yarn-cache
+  override:
+    - yarn
+
+test:
+  override:
+    - yarn test
+    - yarn lint
