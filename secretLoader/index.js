@@ -14,9 +14,8 @@ module.exports = (version, env, parseBooleans = true) => new Promise((resolve, r
       }
 
       const normSecrets = Object.keys(secrets).reduce((acc, key) => {
-
-        acc[key.toUpperCase()] = parseIfShould(secrets[key], parseBooleans); // eslint-disable-line no-param-reassign
-
+        const val = parseIfShould(secrets[key], parseBooleans);
+        acc[key.toUpperCase()] = val;
         return acc;
       }, {});
 

@@ -22,7 +22,7 @@ const parseIfShould = (val, shouldParse) => {
     return parse(val);
   }
   return val;
-}
+};
 
 module.exports = {
   parse,

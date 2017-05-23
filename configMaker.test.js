@@ -9,11 +9,11 @@ const vars = {
   BOOL_VAR_TRUE_LITERAL: true,
   BOOL_VAR_FALSE_LITERAL_D: false,
   BOOL_VAR_TRUE_LITERAL_D: true,
-  SECRET_VAR: 'SECRET_VALUE'
-}
+  SECRET_VAR: 'SECRET_VALUE',
+};
 
 test("should merge all the configuration", () => {
   const config = makeConfig(vars);
-  expect(config.group.var).toEqual("X")
+  expect(config.group.var).toEqual("X");
   expect(config.secretVar).toEqual("SECRET_VALUE");
 });

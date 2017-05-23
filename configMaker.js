@@ -4,22 +4,23 @@ import { camelCase } from "./helpers";
 const SEPARATOR = "__";
 
 const makeConfig = (vars) => {
-  let configObjectsArray = [];
+  const configObjectsArray = [];
 
-  Object.keys(vars).map((key) => {
-    const assignPath = key.split(SEPARATOR).map((key) => {
+  Object.keys(vars).map((configKey) => {
+    const assignPath = configKey.split(SEPARATOR).map((key) => {
       return camelCase(key);
     }).join(".");
 
-    let configObject = {};
-    _.set(configObject, assignPath, vars[key]);
+    const configObject = {};
+    _.set(configObject, assignPath, vars[configKey]);
 
     configObjectsArray.push(configObject);
+    return true;
   });
 
   return _.merge({}, ...configObjectsArray);
-}
+};
 
 module.exports = {
-  makeConfig
-}
+  makeConfig,
+};
