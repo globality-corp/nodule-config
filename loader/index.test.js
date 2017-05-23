@@ -31,3 +31,7 @@ describe("shouldLoadSecrets", () => {
   });
 });
 
+
+describe("toStandardObject", () => {
+
+});

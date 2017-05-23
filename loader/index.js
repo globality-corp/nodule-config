@@ -8,6 +8,10 @@ class Loader {
     return envNameValue;
   };
 
+  toStandardObject = () => {
+
+  }
+
   all = () => {
     const keys = Object.keys(process.env);
 
