@@ -1,3 +1,6 @@
+import _ from "lodash";
+import Credstash from '../secretLoader';
+
 class Loader {
   constructor(secretLoaderPrefix = "MICROCOSM") {
     this.secretLoaderPrefix = secretLoaderPrefix;
@@ -19,8 +22,28 @@ class Loader {
       const newKey = key.replace(this.appNameRegex(), "");
       const val = process.env[key];
       res[newKey] = val;
-      return res
+      return res;
     }, {});
+  }
+
+  toCombinedObject = (getVars = Credstash) => {
+    return new Promise((resolve, reject) => {
+      const envObject = this.toStandardObject();
+
+      if (this.shouldLoadSecrets()) {
+        const version = process.env[`${this.secretLoaderPrefix}_CONFIG_VERSION`];
+        const env = process.env[`${this.secretLoaderPrefix}_ENV`];
+
+        getVars(version, env).then((secrets) => {
+          const combined = _.merge(envObject, secrets);
+          resolve(combined);
+        }).catch((error) => {
+          reject(`Error has occured fetching secrets: ${error}`);
+        });
+      } else {
+        resolve(envObject);
+      }
+    });
   }
 
   all = () => {

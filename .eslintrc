@@ -3,6 +3,7 @@
   "parser": "babel-eslint",
   "extends": "airbnb-base",
   "rules": {
+      "no-unused-vars": [1, { "varsIgnorePattern": "[iI]gnored" }],
       "indent": ["error", 2],
       "space-before-function-paren": 0,
       "quotes": 0,
