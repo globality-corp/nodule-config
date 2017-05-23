@@ -10,7 +10,6 @@ const makeConfig = (vars) => {
     const assignPath = key.split(SEPARATOR).map((key) => {
       return camelCase(key);
     }).join(".");
-    console.log(assignPath);
 
     let configObject = {};
     _.set(configObject, assignPath, vars[key]);
