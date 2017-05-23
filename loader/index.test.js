@@ -91,6 +91,4 @@ describe("toCombinedObject", () => {
       expect(error).toBeTruthy();
     });
   });
-
-
 });
