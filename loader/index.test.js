@@ -71,6 +71,7 @@ describe("toCombinedObject", () => {
 
     return loader.toCombinedObject(getVars).then((combinedConfig) => {
       const keys = Object.keys(combinedConfig);
+      console.log(combinedConfig);
       expect(keys.length).toBe(9); // one secret and the prev config
     });
   });

@@ -1,6 +1,6 @@
 import _ from "lodash";
 import Credstash from '../secretLoader';
-import { parse } from '../booleanParser';
+import { parseIfShould } from '../booleanParser';
 
 class Loader {
   constructor(secretLoaderPrefix = "MICROCOSM", parseBooleans = true) {
@@ -24,11 +24,7 @@ class Loader {
       const newKey = key.replace(this.appNameRegex(), "");
       const val = process.env[key];
 
-      if (this.parseBooleans) {
-        res[newKey] = parse(val);
-      } else {
-        res[newKey] = val;
-      }
+      res[newKey] = parseIfShould(val, this.parseBooleans);
 
       return res;
     }, {});

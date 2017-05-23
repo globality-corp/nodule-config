@@ -17,7 +17,15 @@ const isBoolean = (val) => {
   return parsedValue !== null;
 };
 
+const parseIfShould = (val, shouldParse) => {
+  if (shouldParse && isBoolean(val)) {
+    return parse(val);
+  }
+  return val;
+}
+
 module.exports = {
   parse,
   isBoolean,
+  parseIfShould,
 };
