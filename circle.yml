@@ -11,6 +11,8 @@ dependencies:
   cache_directories:
     - ~/.yarn-cache
   override:
+    - curl -u$JFROG_AUTH https://globality.jfrog.io/globality/api/npm/auth > build.fermina/docker-base/.npmrc
+    - echo "registry=https://globality.jfrog.io/globality/api/npm/npm" >> build.fermina/docker-base/.npmrc
     - yarn
 
 test:
