@@ -35,7 +35,7 @@ describe("toStandardObject", () => {
   test("Check that the object removes the application name from the env vars", () => {
     const loader = new Loader();
     const obj = loader.toStandardObject();
-    expect(obj.BOOL_VAR_FALSE_LITERAL).toBe("False");
+    expect(obj.BOOL_VAR_FALSE_LITERAL).toBe(false); // We are parsing booleans by default
   });
 
   test("Should have the correct number of keys", () => {

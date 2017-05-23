@@ -1,9 +1,11 @@
 import _ from "lodash";
 import Credstash from '../secretLoader';
+import { parse } from '../booleanParser';
 
 class Loader {
-  constructor(secretLoaderPrefix = "MICROCOSM") {
+  constructor(secretLoaderPrefix = "MICROCOSM", parseBooleans = true) {
     this.secretLoaderPrefix = secretLoaderPrefix;
+    this.parseBooleans = parseBooleans;
   }
 
   appName = () => {
@@ -21,7 +23,13 @@ class Loader {
     return allKeys.reduce((res, key) => {
       const newKey = key.replace(this.appNameRegex(), "");
       const val = process.env[key];
-      res[newKey] = val;
+
+      if (this.parseBooleans) {
+        res[newKey] = parse(val);
+      } else {
+        res[newKey] = val;
+      }
+
       return res;
     }, {});
   }
@@ -34,7 +42,7 @@ class Loader {
         const version = process.env[`${this.secretLoaderPrefix}_CONFIG_VERSION`];
         const env = process.env[`${this.secretLoaderPrefix}_ENV`];
 
-        getVars(version, env).then((secrets) => {
+        getVars(version, env, this.parseBooleans).then((secrets) => {
           const combined = _.merge(envObject, secrets);
           resolve(combined);
         }).catch((error) => {
