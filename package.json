@@ -1,5 +1,5 @@
 {
-  "name": "node-global-config",
+  "name": "nodule-config",
   "version": "0.0.1",
   "description": "Global configuration support for Node projects",
   "main": "index.js",
