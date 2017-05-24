@@ -1,6 +1,6 @@
 {
   "name": "nodule-config",
-  "version": "0.2.0",
+  "version": "0.2.1-pre",
   "description": "Global configuration support for Node projects",
   "main": "index.js",
   "scripts": {
