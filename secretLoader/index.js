@@ -2,7 +2,7 @@ import Credstash from 'credstash';
 import { parseIfShould } from "../booleanParser";
 
 
-const parseVersion = (semver, base = 1000) {
+const parseVersion = (semver, base = 1000) => {
   const version = semver.split('.');
 
   if (version.length !== 3) {
@@ -14,7 +14,7 @@ const parseVersion = (semver, base = 1000) {
   const patch = ((base ** 1) * Number(version[2]));
 
   return String(major + minor + patch);
-}
+};
 
 module.exports = (version, env, parseBooleans = true) => new Promise((resolve, reject) => {
   try {
