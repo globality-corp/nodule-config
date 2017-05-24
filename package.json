@@ -3,6 +3,7 @@
   "version": "0.2.1-pre",
   "description": "Global configuration support for Node projects",
   "main": "index.js",
+  "repository": "https://github.com/globality-corp/nodule-config",
   "scripts": {
     "lint": "eslint .",
     "test": "jest"
