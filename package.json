@@ -1,6 +1,6 @@
 {
   "name": "nodule-config",
-  "version": "1.0.6-pre",
+  "version": "1.0.6",
   "description": "Global configuration support for Node projects",
   "main": "dist/index.js",
   "repository": "https://github.com/globality-corp/nodule-config",
