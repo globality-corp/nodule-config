@@ -1,13 +1,30 @@
 import Credstash from 'credstash';
 import { parseIfShould } from "../booleanParser";
 
+
+const parseVersion = (semver, base = 1000) {
+  const version = semver.split('.');
+
+  if (version.length !== 3) {
+    return false;
+  }
+
+  const major = ((base ** 3) * Number(version[0]));
+  const minor = ((base ** 2) * Number(version[1]));
+  const patch = ((base ** 1) * Number(version[2]));
+
+  return String(major + minor + patch);
+}
+
 module.exports = (version, env, parseBooleans = true) => new Promise((resolve, reject) => {
   try {
+    const dynamoVersion = parseVersion(version);
+
     const cs = new Credstash({
       table: env,
     });
 
-    cs.list({ version }, (e, secrets) => {
+    cs.list({ dynamoVersion }, (e, secrets) => {
       if (e) {
         reject(e);
         return;
