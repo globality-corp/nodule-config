@@ -2,11 +2,13 @@
   "name": "nodule-config",
   "version": "0.2.4-pre",
   "description": "Global configuration support for Node projects",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "repository": "https://github.com/globality-corp/nodule-config",
   "scripts": {
+    "build": "babel src --out-dir dist",
     "lint": "eslint .",
-    "test": "jest"
+    "test": "jest src",
+    "prepublish": "npm run build"
   },
   "author": "Avi Zurel",
   "license": "MIT",
@@ -15,6 +17,7 @@
     "lodash": "^4.17.4"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",

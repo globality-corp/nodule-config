@@ -1,0 +1,4 @@
+{
+  "plugins": ["transform-class-constructor-call"],
+  "presets": ["es2015", "stage-2"]
+}
