@@ -14,7 +14,7 @@ class Loader {
   };
 
   appNameRegex = () => {
-    return new RegExp(`^${this.appName()}__`, 'g');
+    return new RegExp(`^${this.appName().toUpperCase()}__`, 'g');
   }
 
   toStandardObject = () => {
@@ -36,7 +36,7 @@ class Loader {
 
       if (this.shouldLoadSecrets()) {
         const version = process.env[`${this.secretLoaderPrefix}_CONFIG_VERSION`];
-        const env = process.env[`${this.secretLoaderPrefix}_ENV`];
+        const env = process.env[`${this.secretLoaderPrefix}_ENVIRONMENT`];
         const secretsTable = `${env}-${this.appName()}-config`;
 
         console.log(`Loading from table ${secretsTable} with version ${version}`) // eslint-disable-line

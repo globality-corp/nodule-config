@@ -1,7 +1,7 @@
 import { Loader } from "./index";
 
 beforeAll(() => {
-  process.env.NAME = "TESTNAME";
+  process.env.NAME = "testname";
   process.env.TESTNAME__GROUP__VAR = "X";
   process.env.TESTNAME__VAR = "Y";
   process.env.TESTNAME__BOOL_VAR_FALSE = "0";
@@ -48,7 +48,7 @@ describe("toStandardObject", () => {
 
 describe("toCombinedObject", () => {
   beforeEach(() => {
-    process.env.MICROCOSM_ENV = "dev";
+    process.env.MICROCOSM_ENVIRONMENT = "dev";
     process.env.MICROCOSM_CONFIG_VERSION = "0.0.0";
   });
 
@@ -61,7 +61,7 @@ describe("toCombinedObject", () => {
     const loader = new Loader();
 
     const getVars = jest.fn().mockImplementation((version, env) => {
-      expect(env).toBe("dev");
+      expect(env).toBe("dev-testname-config");
       expect(version).toBe("0.0.0");
 
       return new Promise((resolve) => {
@@ -71,7 +71,6 @@ describe("toCombinedObject", () => {
 
     return loader.toCombinedObject(getVars).then((combinedConfig) => {
       const keys = Object.keys(combinedConfig);
-      console.log(combinedConfig);
       expect(keys.length).toBe(9); // one secret and the prev config
     });
   });
