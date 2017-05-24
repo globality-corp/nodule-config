@@ -37,8 +37,11 @@ class Loader {
       if (this.shouldLoadSecrets()) {
         const version = process.env[`${this.secretLoaderPrefix}_CONFIG_VERSION`];
         const env = process.env[`${this.secretLoaderPrefix}_ENV`];
+        const secretsTable = `${env}-${this.appName}-config`;
 
-        getVars(version, env, this.parseBooleans).then((secrets) => {
+        console.log(`Loading from table ${secretsTable}`) // eslint-disable-line
+
+        getVars(version, secretsTable, this.parseBooleans).then((secrets) => {
           const combined = _.merge(envObject, secrets);
           resolve(combined);
         }).catch((error) => {
