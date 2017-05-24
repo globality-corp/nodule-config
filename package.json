@@ -2,7 +2,7 @@
   "name": "nodule-config",
   "version": "1.0.1-pre",
   "description": "Global configuration support for Node projects",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
   "repository": "https://github.com/globality-corp/nodule-config",
   "scripts": {
     "build": "babel src --out-dir dist",
