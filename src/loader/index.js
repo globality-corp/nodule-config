@@ -37,7 +37,7 @@ class Loader {
       if (this.shouldLoadSecrets()) {
         const version = process.env[`${this.secretLoaderPrefix}_CONFIG_VERSION`];
         const env = process.env[`${this.secretLoaderPrefix}_ENV`];
-        const secretsTable = `${env}-${this.appName}-config`;
+        const secretsTable = `${env}-${this.appName()}-config`;
 
         console.log(`Loading from table ${secretsTable}`) // eslint-disable-line
 
