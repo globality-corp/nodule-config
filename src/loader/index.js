@@ -42,6 +42,7 @@ class Loader {
         console.log(`Loading from table ${secretsTable}`) // eslint-disable-line
 
         getVars(version, secretsTable, this.parseBooleans).then((secrets) => {
+          console.log(`Completed loading from table ${secretsTable}`) // eslint-disable-line
           const combined = _.merge(envObject, secrets);
           resolve(combined);
         }).catch((error) => {
