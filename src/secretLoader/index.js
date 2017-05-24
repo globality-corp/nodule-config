@@ -19,6 +19,7 @@ const parseVersion = (semver, base = 1000) => {
 module.exports = (version, env, parseBooleans = true) => new Promise((resolve, reject) => {
   try {
     const dynamoVersion = parseVersion(version);
+    console.log(`Loading from table ${env} with version ${version}`) // eslint-disable-line
 
     const cs = new Credstash({
       table: env,

@@ -39,7 +39,7 @@ class Loader {
         const env = process.env[`${this.secretLoaderPrefix}_ENV`];
         const secretsTable = `${env}-${this.appName()}-config`;
 
-        console.log(`Loading from table ${secretsTable}`) // eslint-disable-line
+        console.log(`Loading from table ${secretsTable} with version ${version}`) // eslint-disable-line
 
         getVars(version, secretsTable, this.parseBooleans).then((secrets) => {
           console.log(`Completed loading from table ${secretsTable}`) // eslint-disable-line
