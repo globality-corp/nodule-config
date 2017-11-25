@@ -102,3 +102,4 @@ loader.toCombinedObject().then((configVars) => {
   // Do what you want with your configuratin
 })
 ```
+

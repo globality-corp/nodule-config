@@ -14,6 +14,12 @@ class Loader {
   };
 
   appNameRegex = () => {
+    const name = this.appName();
+    if (!name) {
+      console.log("ENV var `NAME` is missing. Please make sure you define it")
+
+      return null
+    }
     return new RegExp(`^${this.appName().toUpperCase()}__`, 'g');
   }
 
@@ -43,13 +49,14 @@ class Loader {
 
         getVars(version, secretsTable, this.parseBooleans).then((secrets) => {
           console.log(`Completed loading from table ${secretsTable}`) // eslint-disable-line
-          const combined = _.merge(envObject, secrets);
+          // add the name to the config without the need to namespace it under the app name env var
+          const combined = _.merge(envObject, secrets, { name: this.appName() });
           resolve(combined);
         }).catch((error) => {
           reject(`Error has occured fetching secrets: ${error}`);
         });
       } else {
-        resolve(envObject);
+        resolve(_.merge(envObject, { name: this.appName() }));
       }
     });
   }
