@@ -71,7 +71,10 @@ describe("toCombinedObject", () => {
 
     return loader.toCombinedObject(getVars).then((combinedConfig) => {
       const keys = Object.keys(combinedConfig);
-      expect(keys.length).toBe(9); // one secret and the prev config
+      console.log(keys);
+      // We have 9 config items and secrets total. Because we add the name
+      // to the config vars, we should have +1 on keys
+      expect(keys.length).toBe(10); // one secret and the prev config
     });
   });
 
