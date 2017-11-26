@@ -16,9 +16,8 @@ class Loader {
   appNameRegex = () => {
     const name = this.appName();
     if (!name) {
-      console.log("ENV var `NAME` is missing. Please make sure you define it")
-
-      return null
+      console.log("ENV var `NAME` is missing. Please make sure you define it");
+      return null;
     }
     return new RegExp(`^${this.appName().toUpperCase()}__`, 'g');
   }
