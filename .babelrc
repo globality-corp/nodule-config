@@ -1,4 +1,4 @@
 {
-  "plugins": ["transform-class-constructor-call"],
   "presets": ["es2015", "stage-2"]
+  "plugins": ["transform-decorators-legacy", "transform-class-constructor-call"],
 }
