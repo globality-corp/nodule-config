@@ -32,7 +32,7 @@ const mergeConfigSections = (metadata, sections) => {
         },
         metadata,
     );
-}
+};
 
 
 /* Build the full application configuration.
