@@ -64,4 +64,5 @@ const buildConfig = (defaults, vars) => {
 
 module.exports = {
     buildConfig,
+    makeConfig,
 };
