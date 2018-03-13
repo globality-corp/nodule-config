@@ -1,4 +1,4 @@
-import { makeConfig } from "./configMaker";
+import { makeConfig, mergeConfigSections } from "./configMaker";
 
 const vars = {
   GROUP__VAR: 'X',
@@ -16,4 +16,52 @@ test("should merge all the configuration", () => {
   const config = makeConfig(vars);
   expect(config.group.var).toEqual("X");
   expect(config.secretVar).toEqual("SECRET_VALUE");
+});
+
+
+/* Test config merging.  */
+function foo() {
+    return {
+        bar: 'baz',
+    };
+}
+
+
+function bar() {
+    return {
+        baz: 'qux',
+    };
+}
+
+
+test('merging configuration sections', () => {
+    it('invokes callables', () => {
+        const sections = {
+            foo,
+            bar,
+        };
+        expect(
+            mergeConfigSections({}, sections),
+        ).toEqual({
+            foo: {
+                bar: 'baz',
+            },
+            bar: {
+                baz: 'qux',
+            },
+        });
+    });
+
+    it('overrides with later values', () => {
+        const sections = {
+            foo,
+        };
+        expect(
+            mergeConfigSections({ foo: { bar: 'qux' } }, sections),
+        ).toEqual({
+            foo: {
+                bar: 'baz',
+            },
+        });
+    });
 });

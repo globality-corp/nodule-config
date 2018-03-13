@@ -15,7 +15,7 @@ class Loader {
 
   appNameRegex = () => {
     return new RegExp(`^${this.appName().toUpperCase()}__`, 'g');
-  }
+  };
 
   toStandardObject = () => {
     const allKeys = this.all();
@@ -28,7 +28,7 @@ class Loader {
 
       return res;
     }, {});
-  }
+  };
 
   toCombinedObject = (getVars = Credstash) => {
     return new Promise((resolve, reject) => {
@@ -52,7 +52,7 @@ class Loader {
         resolve(envObject);
       }
     });
-  }
+  };
 
   all = () => {
     const keys = Object.keys(process.env);

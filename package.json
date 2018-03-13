@@ -13,10 +13,13 @@
   "author": "Avi Zurel",
   "license": "MIT",
   "dependencies": {
+    "bottlejs": "^1.6.2",
     "credstash": "https://github.com/KensoDev/node-credstash.git#hotfix/credstash",
+    "fsevents": "1.1.2",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
+    "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -24,6 +27,7 @@
     "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-class-constructor-call": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "babel-plugin-transform-es2015-parameters": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
