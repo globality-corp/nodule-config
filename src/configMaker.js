@@ -24,6 +24,17 @@ const makeConfig = (vars) => {
   return merge({}, ...configObjectsArray);
 };
 
+const mergeConfigSections = (metadata, sections) => {
+  return Object.keys(sections).reduce(
+    (acc, key) => {
+      const section = {};
+      section[key] = sections[key](metadata);
+      return merge(acc, section);
+    },
+    metadata,
+  );
+};
+
 /* Build the full application configuration.
  */
 const buildConfig = (name, defaults, vars, debug = false, testing = false) => {
@@ -50,4 +61,5 @@ const buildConfig = (name, defaults, vars, debug = false, testing = false) => {
 module.exports = {
   buildConfig,
   makeConfig,
+  mergeConfigSections,
 };

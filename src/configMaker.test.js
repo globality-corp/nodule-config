@@ -34,7 +34,7 @@ function bar() {
 }
 
 
-test('merging configuration sections', () => {
+describe('merging configuration sections', () => {
   it('invokes callables', () => {
     const sections = {
       foo,
