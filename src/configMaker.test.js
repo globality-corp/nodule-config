@@ -21,47 +21,47 @@ test("should merge all the configuration", () => {
 
 /* Test config merging.  */
 function foo() {
-    return {
-        bar: 'baz',
-    };
+  return {
+    bar: 'baz',
+  };
 }
 
 
 function bar() {
-    return {
-        baz: 'qux',
-    };
+  return {
+    baz: 'qux',
+  };
 }
 
 
 test('merging configuration sections', () => {
-    it('invokes callables', () => {
-        const sections = {
-            foo,
-            bar,
-        };
-        expect(
-            mergeConfigSections({}, sections),
-        ).toEqual({
-            foo: {
-                bar: 'baz',
-            },
-            bar: {
-                baz: 'qux',
-            },
-        });
+  it('invokes callables', () => {
+    const sections = {
+      foo,
+      bar,
+    };
+    expect(
+      mergeConfigSections({}, sections),
+    ).toEqual({
+      foo: {
+        bar: 'baz',
+      },
+      bar: {
+        baz: 'qux',
+      },
     });
+  });
 
-    it('overrides with later values', () => {
-        const sections = {
-            foo,
-        };
-        expect(
-            mergeConfigSections({ foo: { bar: 'qux' } }, sections),
-        ).toEqual({
-            foo: {
-                bar: 'baz',
-            },
-        });
+  it('overrides with later values', () => {
+    const sections = {
+      foo,
+    };
+    expect(
+      mergeConfigSections({ foo: { bar: 'qux' } }, sections),
+    ).toEqual({
+      foo: {
+        bar: 'baz',
+      },
     });
+  });
 });

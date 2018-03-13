@@ -2,11 +2,11 @@ import { camelCase } from 'lodash';
 import getInjector from './getInjector';
 
 function nodeName(tokenOrClass) {
-    if (typeof tokenOrClass === 'string') {
-        return tokenOrClass;
-    }
+  if (typeof tokenOrClass === 'string') {
+    return tokenOrClass;
+  }
 
-    return camelCase(tokenOrClass.name);
+  return camelCase(tokenOrClass.name);
 }
 
 /*
@@ -19,11 +19,11 @@ function nodeName(tokenOrClass) {
  * will be accessible on the graph under `graph.testClass` key.
  */
 export default function binding(nullableNodeName) {
-    const bottle = getInjector();
+  const bottle = getInjector();
 
-    return (TargetClass) => {
-        const name = nullableNodeName || nodeName(TargetClass);
+  return (TargetClass) => {
+    const name = nullableNodeName || nodeName(TargetClass);
 
-        bottle.factory(name, graph => new TargetClass(graph));
-    };
+    bottle.factory(name, graph => new TargetClass(graph));
+  };
 }

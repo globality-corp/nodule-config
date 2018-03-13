@@ -9,9 +9,9 @@ export const globalObject = global;
  * to assure there exists exacly one instance of injector.
  */
 export default function getInjector() {
-    if (!globalObject[INJECTOR_KEY]) {
-        globalObject[INJECTOR_KEY] = new Bottle();
-    }
+  if (!globalObject[INJECTOR_KEY]) {
+    globalObject[INJECTOR_KEY] = new Bottle();
+  }
 
-    return globalObject[INJECTOR_KEY];
+  return globalObject[INJECTOR_KEY];
 }

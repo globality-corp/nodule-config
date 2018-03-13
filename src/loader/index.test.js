@@ -78,13 +78,13 @@ describe("toCombinedObject", () => {
   test("Should reject the entire function if the secrets had a problem fetching", () => {
     const loader = new Loader();
 
-    const getVars = jest.fn().mockImplementation((ignoredversion, ignoredenv) => {
+    const getVars = jest.fn().mockImplementation(() => {
       return new Promise((resolve, reject) => {
         reject(`some error`);
       });
     });
 
-    return loader.toCombinedObject(getVars).then((combinedConfig) => {
+    return loader.toCombinedObject(getVars).then(() => {
       // Make sure we never end up here
       expect(false).toBe(true);
     }).catch((error) => {
