@@ -47,17 +47,17 @@ const buildConfig = (name, defaults, vars, debug = false, testing = false) => {
     testing,
   );
 
-  const environ = makeConfig(vars);
-  // generate metadata
+  const configFromEnviron = makeConfig(vars);
+
   const environment = {
-    environment: get(environ, 'environment', 'dev'),
-    ip: get(environ, 'ip', '0.0.0.0'),
-    port: Number(get(environ, 'port', 3006)),
+    environment: get(configFromEnviron, 'environment', 'dev'),
+    ip: get(configFromEnviron, 'ip', '0.0.0.0'),
+    port: Number(get(configFromEnviron, 'port', 3006)),
   };
 
   const config = merge(
       mergeConfigSections(environment, defaults),
-      environ,
+      configFromEnviron,
   );
   config.metadata = metadata;
 
