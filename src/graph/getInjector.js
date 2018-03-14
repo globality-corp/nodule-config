@@ -1,6 +1,6 @@
 import { Bottle } from 'bottlejs';
 
-export const INJECTOR_KEY = Symbol.for('service-name');
+export const INJECTOR_KEY = Symbol.for('graph');
 export const globalObject = global;
 
 /*

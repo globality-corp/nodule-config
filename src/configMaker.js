@@ -1,4 +1,4 @@
-import { merge, set } from "lodash";
+import { get, merge, set } from "lodash";
 import { camelCase } from "./helpers";
 
 import { getInjector } from './graph';
@@ -41,16 +41,24 @@ const buildConfig = (name, defaults, vars, debug = false, testing = false) => {
   const injector = getInjector();
 
   // load environment variables
-  const environ = makeConfig(vars);
-
-  // generate metadata
   const metadata = new Metadata(
     name,
     debug,
     testing,
   );
 
-  const config = merge(defaults, environ);
+  const environ = makeConfig(vars);
+  // generate metadata
+  const environment = {
+    environment: get(environ, 'environment', 'dev'),
+    ip: get(environ, 'ip', '0.0.0.0'),
+    port: Number(get(environ, 'port', 3006)),
+  };
+
+  const config = merge(
+      mergeConfigSections(environment, defaults),
+      environ
+  );
   config.metadata = metadata;
 
   // save config and return
