@@ -57,7 +57,7 @@ const buildConfig = (name, defaults, vars, debug = false, testing = false) => {
 
   const config = merge(
       mergeConfigSections(environment, defaults),
-      environ
+      environ,
   );
   config.metadata = metadata;
 
