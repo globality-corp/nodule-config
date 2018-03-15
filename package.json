@@ -10,7 +10,7 @@
     "test": "jest src",
     "prepublish": "npm run build"
   },
-  "author": "Avi Zurel",
+  "author": "Globality Engineering",
   "license": "MIT",
   "dependencies": {
     "bottlejs": "^1.6.2",
