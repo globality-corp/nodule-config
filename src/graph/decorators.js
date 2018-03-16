@@ -18,7 +18,7 @@ function nodeName(tokenOrClass) {
  * if not `class.name` will be picked as a name, e.g. class `TestClass`
  * will be accessible on the graph under `graph.testClass` key.
  */
-export default function binding(nullableNodeName) {
+function binding(nullableNodeName) {
   const bottle = getInjector();
 
   return (TargetClass) => {
@@ -26,4 +26,27 @@ export default function binding(nullableNodeName) {
 
     bottle.factory(name, graph => new TargetClass(graph));
   };
+}
+
+/*
+ * Class decorator, registering the specified details to this component in the
+ * graph.
+ * */
+function defaults(defaultValues) {
+  const graph = getInjector();
+  if (!graph.container.defaults) {
+      const defaults = {};
+      graph.factory('defaults', () => defaults);
+  }
+
+  return (TargetClass) => {
+      const name = nodeName(TargetClass);
+      graph.container.defaults[name] = defaultValues;
+      return TargetClass;
+  };
+}
+
+module.exports = {
+  binding,
+  defaults,
 }
