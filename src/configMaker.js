@@ -49,7 +49,7 @@ const buildConfig = (name, vars, debug = false, testing = false) => {
 
   const configFromEnviron = makeConfig(vars);
 
-  const environment = {
+  const serverDefaults = {
     environment: get(configFromEnviron, 'environment', 'dev'),
     ip: get(configFromEnviron, 'ip', '0.0.0.0'),
     port: Number(get(configFromEnviron, 'port', 3006)),
@@ -58,6 +58,7 @@ const buildConfig = (name, vars, debug = false, testing = false) => {
   const config = merge(
       graph.container.defaults,
       configFromEnviron,
+      serverDefaults,
   );
   config.metadata = metadata;
 

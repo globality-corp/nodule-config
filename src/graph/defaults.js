@@ -27,7 +27,8 @@ function defaults(defaultValues) {
   }
 
   return (TargetClass) => {
-      graph.container.defaults[nodeName(TargetClass)] = defaultValues;
+      const name = nodeName(TargetClass);
+      graph.container.defaults[name] = defaultValues;
       return TargetClass;
   };
 }
