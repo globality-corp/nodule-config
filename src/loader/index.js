@@ -17,41 +17,40 @@ class Loader {
     return new RegExp(`^${this.appName().toUpperCase()}__`, 'g');
   };
 
-  toStandardObject = () => {
-    const allKeys = this.all();
+  loadFromEnviron = () => {
+    return new Promise((resolve) => {
+        const allKeys = this.all();
 
-    return allKeys.reduce((res, key) => {
-      const newKey = key.replace(this.appNameRegex(), "");
-      const val = process.env[key];
+        return resolve(allKeys.reduce((res, key) => {
+          const newKey = key.replace(this.appNameRegex(), "");
+          const val = process.env[key];
 
-      res[newKey] = parseIfShould(val, this.parseBooleans);
+          res[newKey] = parseIfShould(val, this.parseBooleans);
 
-      return res;
-    }, {});
+          return res;
+        }, {}));
+    });
   };
 
-  toCombinedObject = (getVars = Credstash) => {
-    return new Promise((resolve, reject) => {
-      const envObject = this.toStandardObject();
+  loadSecrets = (getVars = Credstash) => {
+      return new Promise((resolve, reject) => {
+          if (this.shouldLoadSecrets()) {
+            const version = process.env[`${this.secretLoaderPrefix}_CONFIG_VERSION`];
+            const env = process.env[`${this.secretLoaderPrefix}_ENVIRONMENT`];
+            const secretsTable = `${env}-${this.appName()}-config`;
 
-      if (this.shouldLoadSecrets()) {
-        const version = process.env[`${this.secretLoaderPrefix}_CONFIG_VERSION`];
-        const env = process.env[`${this.secretLoaderPrefix}_ENVIRONMENT`];
-        const secretsTable = `${env}-${this.appName()}-config`;
+            console.log(`Loading from table ${secretsTable} with version ${version}`) // eslint-disable-line
 
-        console.log(`Loading from table ${secretsTable} with version ${version}`) // eslint-disable-line
-
-        getVars(version, secretsTable, this.parseBooleans).then((secrets) => {
-          console.log(`Completed loading from table ${secretsTable}`) // eslint-disable-line
-          const combined = _.merge(envObject, secrets);
-          resolve(combined);
-        }).catch((error) => {
-          reject(`Error has occured fetching secrets: ${error}`);
-        });
-      } else {
-        resolve(envObject);
-      }
-    });
+            getVars(version, secretsTable, this.parseBooleans).then((secrets) => {
+              console.log(`Completed loading from table ${secretsTable}`) // eslint-disable-line
+              resolve(secrets);
+            }).catch((error) => {
+              reject(`Error has occured fetching secrets: ${error}`);
+            });
+          } else {
+            resolve({});
+          }
+      });
   };
 
   all = () => {
