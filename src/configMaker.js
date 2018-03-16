@@ -24,7 +24,7 @@ const makeConfig = (vars) => {
   return merge({}, ...configObjectsArray);
 };
 
-const mergeConfigSections = (metadata, sections) => {
+const mergeConfigSections = (metadata, defaults) => {
   return Object.keys(sections).reduce(
     (acc, key) => {
       const section = {};
@@ -37,8 +37,8 @@ const mergeConfigSections = (metadata, sections) => {
 
 /* Build the full application configuration.
  */
-const buildConfig = (name, defaults, vars, debug = false, testing = false) => {
-  const injector = getInjector();
+const buildConfig = (name, vars, debug = false, testing = false) => {
+  const graph = getInjector();
 
   // load environment variables
   const metadata = new Metadata(
@@ -56,13 +56,13 @@ const buildConfig = (name, defaults, vars, debug = false, testing = false) => {
   };
 
   const config = merge(
-      mergeConfigSections(environment, defaults),
+      graph.container.defaults,
       configFromEnviron,
   );
   config.metadata = metadata;
 
   // save config and return
-  injector.factory('config', () => config);
+  graph.factory('config', () => config);
   return config;
 };
 
