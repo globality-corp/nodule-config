@@ -35,40 +35,8 @@ const mergeConfigSections = (metadata, defaults) => {
   );
 };
 
-/* Build the full application configuration.
- */
-const buildConfig = (name, vars, debug = false, testing = false) => {
-  const graph = getInjector();
-
-  // load environment variables
-  const metadata = new Metadata(
-    name,
-    debug,
-    testing,
-  );
-
-  const configFromEnviron = makeConfig(vars);
-
-  const serverDefaults = {
-    environment: get(configFromEnviron, 'environment', 'dev'),
-    ip: get(configFromEnviron, 'ip', '0.0.0.0'),
-    port: Number(get(configFromEnviron, 'port', 3006)),
-  };
-
-  const config = merge(
-      graph.container.defaults,
-      configFromEnviron,
-      serverDefaults,
-  );
-  config.metadata = metadata;
-
-  // save config and return
-  graph.factory('config', () => config);
-  return config;
-};
 
 module.exports = {
-  buildConfig,
   makeConfig,
   mergeConfigSections,
 };

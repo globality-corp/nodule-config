@@ -1,31 +1,8 @@
 import { get, merge, set } from "lodash";
 
 import { getInjector } from '../graph';
-import { Loader } from '../Loader';
-import { makeConfig } from '../configMaker';
-import { Metadata } from '../metadata';
-
-
-function loadEnvironment(loader) {
-    const graph = getInjector();
-    return loader.loadFromEnviron().then((environment) => {
-        const config = makeConfig(environment);
-        graph.container.loader.environment = config;
-        console.log("environ stuff??");
-        console.log(config);
-        return config;
-    });
-}
-
-
-function loadCredstash(loader) {
-    const graph = getInjector();
-    return loader.loadSecrets().then((secrets) => {
-        const config = makeConfig(secrets);
-        graph.container.loader.secrets = config;
-        return config;
-    });
-}
+import { Loader, loadFromEnvironment, loadFromCredstash } from '../Loader';
+import Metadata from '../metadata';
 
 
 class Nodule {
@@ -35,22 +12,21 @@ class Nodule {
         this.name = this.options.name;
         this.debug = this.options.debug || false;
         this.testing = this.options.testing || false;
+        this.loaders = this.options.loaders || [loadFromEnvironment, loadFromCredstash];
         
         const loaders = {};
         this.graph.factory('loader', () => loaders);
 
-        const loader = new Loader();
-        this.loaders = this.options.loaders || [loadEnvironment(loader), loadCredstash(loader)];
+        this.loader = new Loader();
     }
 
     combined() {
-        return Promise.all(this.loaders).then((configByLoader) => {
+        const loaders = this.loaders.map((loader) => loader(this.loader));
+        return Promise.all(loaders).then((configByLoader) => {
             return merge(...configByLoader);
         });
     }
 
-    /* Build the full application configuration.
-     */
     makeGraph() {
       const graph = getInjector();
 

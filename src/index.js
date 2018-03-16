@@ -1,6 +1,5 @@
-import { Loader } from "./loader";
+import { Loader, loadFromEnvironment, loadFromCredstash } from "./loader";
 import { Nodule } from "./nodule";
-import { makeConfig, buildConfig } from "./configMaker";
 import secretLoader from "./secretLoader";
 import { binding, defaults, getInjector } from "./graph";
 
@@ -9,8 +8,8 @@ module.exports = {
   defaults,
   getInjector,
   Loader,
+  loadFromEnvironment,
+  loadFromCredstash,
   Nodule,
-  buildConfig,
-  makeConfig,
   secretLoader,
 };

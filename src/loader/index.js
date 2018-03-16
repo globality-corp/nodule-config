@@ -1,4 +1,7 @@
 import _ from "lodash";
+
+import { makeConfig } from '../configMaker';
+import { getInjector } from '../graph';
 import Credstash from '../secretLoader';
 import { parseIfShould } from '../booleanParser';
 
@@ -78,6 +81,28 @@ class Loader {
   };
 }
 
+
+function loadFromEnvironment(loader) {
+    const graph = getInjector();
+    return loader.loadFromEnviron().then((environment) => {
+        const config = makeConfig(environment);
+        graph.container.loader.environment = config;
+        return config;
+    });
+}
+
+
+function loadFromCredstash(loader) {
+    const graph = getInjector();
+    return loader.loadSecrets().then((secrets) => {
+        const config = makeConfig(secrets);
+        graph.container.loader.secrets = config;
+        return config;
+    });
+}
+
 module.exports = {
   Loader,
+  loadFromEnvironment,
+  loadFromCredstash,
 };
