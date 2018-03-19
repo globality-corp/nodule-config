@@ -1,4 +1,4 @@
-import binding from '../binding';
+import { binding } from '../decorators';
 import getInjector from '../getInjector';
 
 const TEST_CLASS_A_VALUE = 'test-class-a-value';

@@ -1,5 +1,7 @@
 import { Loader } from "./index";
 
+const mockGraph = { container: { metadata: { testing: true } } };
+
 beforeAll(() => {
   process.env.NAME = "testname";
   process.env.TESTNAME__GROUP__VAR = "X";
@@ -13,40 +15,42 @@ beforeAll(() => {
 });
 
 test("Should have the correct length of keys", () => {
-  const loader = new Loader();
+  const loader = new Loader(mockGraph);
   expect(loader.all().length).toBe(8);
 });
 
 describe("shouldLoadSecrets", () => {
   test("Loading secrets should be false", () => {
     process.env.MICROCOSM_ENV = "dev";
-    const loader = new Loader();
+    const loader = new Loader(mockGraph);
     expect(loader.shouldLoadSecrets()).toBe(true);
   });
 
   test("Loading secrets should be false", () => {
     delete process.env.MICROCOSM_ENV;
-    const loader = new Loader();
+    const loader = new Loader(mockGraph);
     expect(loader.shouldLoadSecrets()).toBe(false);
   });
 });
 
-describe("toStandardObject", () => {
+describe("loadFromEnviron", () => {
   test("Check that the object removes the application name from the env vars", () => {
-    const loader = new Loader();
-    const obj = loader.toStandardObject();
-    expect(obj.BOOL_VAR_FALSE_LITERAL).toBe(false); // We are parsing booleans by default
+    const loader = new Loader(mockGraph);
+    loader.loadFromEnviron().then((obj) => {
+      expect(obj.BOOL_VAR_FALSE_LITERAL).toBe(false); // We are parsing booleans by default
+    });
   });
 
   test("Should have the correct number of keys", () => {
-    const loader = new Loader();
-    const obj = loader.toStandardObject();
-    const keys = Object.keys(obj);
-    expect(keys.length).toBe(8);
+    const loader = new Loader(mockGraph);
+    loader.loadFromEnviron().then((obj) => {
+      const keys = Object.keys(obj);
+      expect(keys.length).toBe(8);
+    });
   });
 });
 
-describe("toCombinedObject", () => {
+describe("loadSecrets", () => {
   beforeEach(() => {
     process.env.MICROCOSM_ENVIRONMENT = "dev";
     process.env.MICROCOSM_CONFIG_VERSION = "0.0.0";
@@ -57,8 +61,8 @@ describe("toCombinedObject", () => {
     delete process.env.MICROCOSM_CONFIG_VERSION;
   });
 
-  test("Should call the secrets function", () => {
-    const loader = new Loader();
+  test("Should load secrets", () => {
+    const loader = new Loader(mockGraph);
 
     const getVars = jest.fn().mockImplementation((version, env) => {
       expect(env).toBe("dev-testname-config");
@@ -69,14 +73,14 @@ describe("toCombinedObject", () => {
       });
     });
 
-    return loader.toCombinedObject(getVars).then((combinedConfig) => {
-      const keys = Object.keys(combinedConfig);
-      expect(keys.length).toBe(9); // one secret and the prev config
+    return loader.loadSecrets(getVars).then((secrets) => {
+      const keys = Object.keys(secrets);
+      expect(keys.length).toBe(1);
     });
   });
 
   test("Should reject the entire function if the secrets had a problem fetching", () => {
-    const loader = new Loader();
+    const loader = new Loader(mockGraph);
 
     const getVars = jest.fn().mockImplementation(() => {
       return new Promise((resolve, reject) => {
@@ -84,7 +88,7 @@ describe("toCombinedObject", () => {
       });
     });
 
-    return loader.toCombinedObject(getVars).then(() => {
+    return loader.loadSecrets(getVars).then(() => {
       // Make sure we never end up here
       expect(false).toBe(true);
     }).catch((error) => {

@@ -32,21 +32,21 @@ function binding(nullableNodeName) {
  * Class decorator, registering the specified details to this component in the
  * graph.
  * */
-function defaults(defaultValues) {
+function defaults(values) {
   const graph = getInjector();
   if (!graph.container.defaults) {
-      const defaults = {};
-      graph.factory('defaults', () => defaults);
+    const defaultValues = {};
+    graph.factory('defaults', () => defaultValues);
   }
 
   return (TargetClass) => {
-      const name = nodeName(TargetClass);
-      graph.container.defaults[name] = defaultValues;
-      return TargetClass;
+    const name = nodeName(TargetClass);
+    graph.container.defaults[name] = values;
+    return TargetClass;
   };
 }
 
 module.exports = {
   binding,
   defaults,
-}
+};

@@ -1,8 +1,6 @@
-import { get, merge, set } from "lodash";
+import { merge, set } from "lodash";
 import { camelCase } from "./helpers";
 
-import { getInjector } from './graph';
-import { Metadata } from './metadata';
 
 const SEPARATOR = "__";
 
@@ -24,19 +22,7 @@ const makeConfig = (vars) => {
   return merge({}, ...configObjectsArray);
 };
 
-const mergeConfigSections = (metadata, defaults) => {
-  return Object.keys(sections).reduce(
-    (acc, key) => {
-      const section = {};
-      section[key] = sections[key](metadata);
-      return merge(acc, section);
-    },
-    metadata,
-  );
-};
-
 
 module.exports = {
   makeConfig,
-  mergeConfigSections,
 };

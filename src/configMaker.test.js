@@ -1,4 +1,4 @@
-import { makeConfig, mergeConfigSections } from "./configMaker";
+import { makeConfig } from "./configMaker";
 
 const vars = {
   GROUP__VAR: 'X',
@@ -19,48 +19,22 @@ test("should merge all the configuration", () => {
 });
 
 
-/* Test config merging.  */
-function foo() {
-  return {
-    bar: 'baz',
-  };
-}
-
-
-function bar() {
-  return {
-    baz: 'qux',
-  };
-}
-
-
-describe('merging configuration sections', () => {
-  it('invokes callables', () => {
-    const sections = {
-      foo,
-      bar,
+describe('making config from a key-value list', () => {
+  it('parses config to dict properly', () => {
+    const envVars = {
+      FOO_DOW__BAR: "baz",
+      FOO_DOW__BAZ: "bap",
+      FOO_DON__BAZ: "bap",
     };
     expect(
-      mergeConfigSections({}, sections),
+      makeConfig(envVars),
     ).toEqual({
-      foo: {
+      fooDow: {
         bar: 'baz',
+        baz: 'bap',
       },
-      bar: {
-        baz: 'qux',
-      },
-    });
-  });
-
-  it('overrides with later values', () => {
-    const sections = {
-      foo,
-    };
-    expect(
-      mergeConfigSections({ foo: { bar: 'qux' } }, sections),
-    ).toEqual({
-      foo: {
-        bar: 'baz',
+      fooDon: {
+        baz: 'bap',
       },
     });
   });
