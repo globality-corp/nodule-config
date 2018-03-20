@@ -1,5 +1,6 @@
-import _ from "lodash";
+import { merge, set } from "lodash";
 import { camelCase } from "./helpers";
+
 
 const SEPARATOR = "__";
 
@@ -12,14 +13,15 @@ const makeConfig = (vars) => {
     }).join(".");
 
     const configObject = {};
-    _.set(configObject, assignPath, vars[configKey]);
+    set(configObject, assignPath, vars[configKey]);
 
     configObjectsArray.push(configObject);
     return true;
   });
 
-  return _.merge({}, ...configObjectsArray);
+  return merge({}, ...configObjectsArray);
 };
+
 
 module.exports = {
   makeConfig,

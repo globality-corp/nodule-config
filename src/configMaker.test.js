@@ -17,3 +17,25 @@ test("should merge all the configuration", () => {
   expect(config.group.var).toEqual("X");
   expect(config.secretVar).toEqual("SECRET_VALUE");
 });
+
+
+describe('making config from a key-value list', () => {
+  it('parses config to dict properly', () => {
+    const envVars = {
+      FOO_DOW__BAR: "baz",
+      FOO_DOW__BAZ: "bap",
+      FOO_DON__BAZ: "bap",
+    };
+    expect(
+      makeConfig(envVars),
+    ).toEqual({
+      fooDow: {
+        bar: 'baz',
+        baz: 'bap',
+      },
+      fooDon: {
+        baz: 'bap',
+      },
+    });
+  });
+});

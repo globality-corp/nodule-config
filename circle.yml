@@ -1,21 +1,119 @@
-machine:
-  # This makes use of a cache for reuse between builds
-  environment:
-    PATH: "${PATH}:${HOME}/node-global-config/node_modules/.bin"
-  pre:
-    - mkdir ~/.yarn-cache
-  node:
-    version: 6.9.5
+version: 2
+jobs:
+  checkout:
+    <<: *defaults
 
-dependencies:
-  cache_directories:
-    - ~/.yarn-cache
-  override:
-    - curl -u$JFROG_AUTH https://globality.jfrog.io/globality/api/npm/auth > ~/.npmrc
-    - echo "registry=https://globality.jfrog.io/globality/api/npm/npm" >> ~/.npmrc
-    - yarn
+    steps:
+      - checkout
 
-test:
-  override:
-    - yarn test
-    - yarn lint
+      - run:
+          name: Authenticate NPM
+          command: |
+            touch .npmrc
+            curl -u$JFROG_AUTH https://globality.jfrog.io/globality/api/npm/auth > .npmrc
+            echo "registry=https://globality.jfrog.io/globality/api/npm/npm" >> .npmrc
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+          - v1-dependencies-
+
+      - run:
+          name: Install Dependencies
+          command: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+
+      - persist_to_workspace:
+          root: ~/repo
+          <<: *whitelist
+
+  test:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Test
+          command: yarn test
+
+      - persist_to_workspace:
+          root: ~/repo
+          <<: *whitelist
+
+  build:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Build code
+          command: yarn build
+
+      - persist_to_workspace:
+          root: ~/repo
+          <<: *whitelist
+
+  deploy:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Publish to NPM
+          command: npm publish
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - checkout
+      - test:
+          requires:
+            - checkout
+      - build:
+          requires:
+            - test
+
+  release:
+    jobs:
+      - checkout:
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+      - test:
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+          requires:
+            - checkout
+      - build:
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+          requires:
+            - test
+      - deploy:
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+          requires:
+            - build
