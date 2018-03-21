@@ -21,7 +21,7 @@ class Loader {
 
   appName = () => {
     const envNameValue = process.env.NAME;
-    return envNameValue;
+    return this.graph.container.metadata.name || envNameValue;
   };
 
   appNameRegex = () => {
