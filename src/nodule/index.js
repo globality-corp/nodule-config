@@ -54,6 +54,8 @@ class Nodule {
         serverDefaults,
         loadedConfig,
       );
+
+      graph.resetProviders('config');
       graph.factory('config', () => config);
       return graph;
     });
