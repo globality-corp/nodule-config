@@ -16,7 +16,7 @@ describe('loadFromObject', () => {
                 baz: 'foo',
             },
         };
-        expect(loadFromObject(config)(new Metadata('test'))).toEqual(config);
+        expect(loadFromObject(config)(new Metadata({ name: 'test' }))).toEqual(config);
     });
 });
 
@@ -37,7 +37,7 @@ describe('loadEach', () => {
             },
         });
         const loader = loadEach(loader1, loader2);
-        const config = await loader(new Metadata('test'));
+        const config = await loader(new Metadata({ name: 'test' }));
 
         expect(config).toEqual({
             foo: 'bar',
@@ -63,7 +63,7 @@ describe('loadEach', () => {
             },
         });
         const loader = loadEach(loader1, loader2);
-        const config = await loader(new Metadata('test'));
+        const config = await loader(new Metadata({ name: 'test' }));
 
         expect(config).toEqual({
             foo: 'bar',

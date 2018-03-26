@@ -42,15 +42,15 @@ With this `Metadata`, `Nodule` can load configuration using loader functions:
         import { Nodule, loadFromEnvironment } from 'nodule-config';
 
         const nodule = new Nodule(metadata);
-        nodule.loader(loadFromEnvironment).then(bottle => myInitFunc(bottle));
+        nodule.from(loadFromEnvironment).load().then(bottle => myInitFunc(bottle));
 
 Common loader functions also have shortcuts:
 
-        nodule.loadFromEnvironment().then(bottle => myInitFunc(bottle));
+        nodule.fromEnvironment().load().then(bottle => myInitFunc(bottle));
 
 These shortcuts can be chained to enable multiple loaders:
 
-        nodule.loadFromEnvironment().loadFromCredstash().then(bottle => myInitFunc(bottle));
+        nodule.fromEnvironment().fromCredstash().load().then(bottle => myInitFunc(bottle));
 
 In the likely event that multiple loaders are used, `Nodule` will merge the loaders (and any defaults) in their
 declaration order.

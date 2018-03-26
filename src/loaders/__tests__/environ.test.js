@@ -16,7 +16,7 @@ describe('loadFromEnvironment', () => {
     });
 
     it('should have the correct configuration', () => {
-        const config = loadFromEnvironment(new Metadata('test'));
+        const config = loadFromEnvironment(new Metadata({ name: 'test' }));
 
         expect(config).toEqual({
             boolVariableFalse: false,
@@ -33,7 +33,7 @@ describe('loadFromEnvironment', () => {
     });
 
     it('should filter out non-matching variables', () => {
-        const config = loadFromEnvironment(new Metadata('other'));
+        const config = loadFromEnvironment(new Metadata({ name: 'other' }));
 
         expect(config).toEqual({
         });

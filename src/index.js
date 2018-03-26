@@ -1,15 +1,10 @@
-import { Loader, loadFromEnvironment, loadFromCredstash } from './loader';
-import { Nodule } from './nodule';
-import secretLoader from './secretLoader';
-import { binding, defaults, getInjector } from './graph';
-
-module.exports = {
-    binding,
-    defaults,
-    getInjector,
-    Loader,
-    loadFromEnvironment,
+export { bind, setDefaults } from './bind';
+export { default as getInjector } from './injector';
+export {
+    loadEach,
     loadFromCredstash,
-    Nodule,
-    secretLoader,
-};
+    loadFromEnvironment,
+    loadFromObject,
+} from './loaders';
+export { default as Nodule } from './nodule';
+export { default as Metadata } from './metadata';
