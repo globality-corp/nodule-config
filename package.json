@@ -1,5 +1,5 @@
 {
-    "name": "nodule-config",
+    "name": "@globality/nodule-config",
     "version": "1.0.9",
     "description": "Opinionated configuration for Node application",
     "main": "lib/",
