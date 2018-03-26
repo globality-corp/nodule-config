@@ -18,7 +18,7 @@ describe("Nodule", () => {
   });
 
 
-  test("A Nodule combines config from all loaders", () => {
+  test.skip("A Nodule combines config from all loaders", () => {
     const nodule = new Nodule({
       name: 'test',
       debug: true,
