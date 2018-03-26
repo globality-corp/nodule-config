@@ -1,28 +1,27 @@
-import { merge, set } from "lodash";
-import { camelCase } from "./helpers";
+import { camelCase, merge, set } from 'lodash';
 
 
-const SEPARATOR = "__";
+const SEPARATOR = '__';
 
-const makeConfig = (vars) => {
-  const configObjectsArray = [];
+function makeConfig(vars) {
+    const configObjectsArray = [];
 
-  Object.keys(vars).map((configKey) => {
-    const assignPath = configKey.split(SEPARATOR).map((key) => {
-      return camelCase(key);
-    }).join(".");
+    Object.keys(vars).map((configKey) => {
+        const assignPath = configKey.split(SEPARATOR).map(
+            key => camelCase(key),
+        ).join('.');
 
-    const configObject = {};
-    set(configObject, assignPath, vars[configKey]);
+        const configObject = {};
+        set(configObject, assignPath, vars[configKey]);
 
-    configObjectsArray.push(configObject);
-    return true;
-  });
+        configObjectsArray.push(configObject);
+        return true;
+    });
 
-  return merge({}, ...configObjectsArray);
-};
+    return merge({}, ...configObjectsArray);
+}
 
 
 module.exports = {
-  makeConfig,
+    makeConfig,
 };

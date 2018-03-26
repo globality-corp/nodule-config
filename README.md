@@ -1,4 +1,6 @@
-# Opinionated configuration for Node projects
+# nodule-config
+
+Opinionated configuration for Node applications
 
 [![CircleCI](https://circleci.com/gh/globality-corp/nodule-config/tree/master.svg?style=svg)](https://circleci.com/gh/globality-corp/nodule-config/tree/master)
 
@@ -42,9 +44,9 @@ compile a list out of all of them, if you require secrets, it will get merged.
 ### After
 
 ```
-{ 
-  group: { 
-    var: 'X'  
+{
+  group: {
+    var: 'X'
   },
   var: 'Y',
   boolVarFalse: false,

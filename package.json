@@ -1,44 +1,34 @@
 {
-  "name": "nodule-config",
-  "version": "1.0.9",
-  "description": "Global configuration support for Node projects",
-  "main": "dist/index.js",
-  "repository": "https://github.com/globality-corp/nodule-config",
-  "scripts": {
-    "build": "babel src --out-dir dist",
-    "lint": "eslint .",
-    "test": "jest src",
-    "prepublish": "npm run build"
-  },
-  "author": "Globality Engineering",
-  "license": "MIT",
-  "dependencies": {
-    "bottlejs": "^1.6.2",
-    "credstash": "https://github.com/KensoDev/node-credstash.git#hotfix/credstash",
-    "lodash": "^4.17.4"
-  },
-  "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
-    "babel-eslint": "^7.2.3",
-    "babel-jest": "^20.0.3",
-    "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-class-constructor-call": "^6.24.1",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
-    "babel-plugin-transform-es2015-parameters": "^6.24.1",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-plugin-transform-strict-mode": "^6.24.1",
-    "babel-preset-env": "^1.5.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.2.0",
-    "jest": "^20.0.3",
-    "regenerator-runtime": "^0.10.5"
-  }
+    "name": "nodule-config",
+    "version": "1.0.9",
+    "description": "Opinionated configuration for Node application",
+    "main": "lib/",
+    "repository": "https://github.com/globality-corp/nodule-config",
+    "scripts": {
+        "build": "babel src --out-dir lib --ignore '**/__tests__/*,**/__mocks__/*'",
+        "lint": "eslint src --cache",
+        "test": "jest src",
+        "verify": "yarn lint && yarn test"
+    },
+    "author": "Globality Engineering",
+    "license": "MIT",
+    "dependencies": {
+        "bottlejs": "^1.6.2",
+        "credstash": "https://github.com/KensoDev/node-credstash.git#hotfix/credstash",
+        "lodash": "^4.17.5"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-eslint": "^8.2.2",
+        "babel-plugin-transform-async-to-generator": "^6.24.1",
+        "babel-plugin-transform-decorators-legacy": "^1.3.4",
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-polyfill": "^6.26.0",
+        "babel-preset-env": "^1.6.1",
+        "eslint": "^4.18.2",
+        "eslint-config-airbnb-base": "^12.1.0",
+        "eslint-plugin-import": "^2.9.0",
+        "jest": "^22.4.2"
+    }
 }

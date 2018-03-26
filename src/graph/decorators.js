@@ -2,11 +2,11 @@ import { camelCase } from 'lodash';
 import getInjector from './getInjector';
 
 function nodeName(tokenOrClass) {
-  if (typeof tokenOrClass === 'string') {
-    return tokenOrClass;
-  }
+    if (typeof tokenOrClass === 'string') {
+        return tokenOrClass;
+    }
 
-  return camelCase(tokenOrClass.name);
+    return camelCase(tokenOrClass.name);
 }
 
 /*
@@ -19,13 +19,13 @@ function nodeName(tokenOrClass) {
  * will be accessible on the graph under `graph.testClass` key.
  */
 function binding(nullableNodeName) {
-  const bottle = getInjector();
+    const bottle = getInjector();
 
-  return (TargetClass) => {
-    const name = nullableNodeName || nodeName(TargetClass);
+    return (TargetClass) => {
+        const name = nullableNodeName || nodeName(TargetClass);
 
-    bottle.factory(name, graph => new TargetClass(graph));
-  };
+        bottle.factory(name, graph => new TargetClass(graph));
+    };
 }
 
 /*
@@ -33,20 +33,20 @@ function binding(nullableNodeName) {
  * graph.
  * */
 function defaults(values) {
-  const graph = getInjector();
-  if (!graph.container.defaults) {
-    const defaultValues = {};
-    graph.factory('defaults', () => defaultValues);
-  }
+    const graph = getInjector();
+    if (!graph.container.defaults) {
+        const defaultValues = {};
+        graph.factory('defaults', () => defaultValues);
+    }
 
-  return (TargetClass) => {
-    const name = nodeName(TargetClass);
-    graph.container.defaults[name] = values;
-    return TargetClass;
-  };
+    return (TargetClass) => {
+        const name = nodeName(TargetClass);
+        graph.container.defaults[name] = values;
+        return TargetClass;
+    };
 }
 
 module.exports = {
-  binding,
-  defaults,
+    binding,
+    defaults,
 };
