@@ -13,7 +13,7 @@
     "author": "Globality Engineering",
     "license": "MIT",
     "dependencies": {
-        "bottlejs": "^1.6.2",
+        "bottlejs": "^1.7.0",
         "credstash": "https://github.com/KensoDev/node-credstash.git#hotfix/credstash",
         "lodash": "^4.17.5"
     },

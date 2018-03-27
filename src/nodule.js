@@ -34,14 +34,13 @@ export default class Nodule {
     }
 
     load() {
-        const { defaults, metadata } = getContainer(this.scope);
+        const { defaults, metadata } = getContainer(null, this.scope);
 
         const loader = loadEach(
             loadFromObject(defaults),
             ...this.loaders,
         );
         return loader(metadata).then((config) => {
-            // NB: will fail if Nodule is run twice in the same scope/bottle
             bind('config', () => config);
             return config;
         });
