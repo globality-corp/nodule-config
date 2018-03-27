@@ -23,6 +23,11 @@ export function getConfig(scope = null) {
     return config;
 }
 
+export function getDefaults(scope = null) {
+    const { defaults } = getContainer(scope);
+    return defaults;
+}
+
 export function getMetadata(scope = null) {
     const { metadata } = getContainer(scope);
     return metadata;

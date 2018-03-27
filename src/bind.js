@@ -1,18 +1,23 @@
-import { getInjector } from './injector';
+import { getDefaults, getInjector } from './injector';
 
 
 export function bind(name, factory, scope = null) {
     const bottle = getInjector(scope);
-    bottle.factory(name, factory);
+
+    if (!bottle.providerMap[name]) {
+        bottle.factory(name, factory);
+    }
+}
+
+
+function initDefaults() {
+    return {};
 }
 
 
 export function setDefaults(name, object, scope = null) {
-    const bottle = getInjector(scope);
-    if (!bottle.providerMap.defaults) {
-        bottle.factory('defaults', () => ({}));
-    }
-    const { container } = bottle;
+    bind('defaults', initDefaults);
 
-    container.defaults[name] = object;
+    const defaults = getDefaults(scope);
+    defaults[name] = object;
 }
