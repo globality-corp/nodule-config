@@ -1,4 +1,5 @@
-import { getInjector } from './injector';
+import { bind } from './bind';
+import { getContainer } from './injector';
 import {
     loadEach,
     loadFromCredstash,
@@ -15,11 +16,7 @@ export default class Nodule {
         this.loaders = loaders || [];
         this.scope = scope;
 
-        const bottle = getInjector(this.scope);
-
-        if (!bottle.providerMap.metadata) {
-            bottle.factory('metadata', () => this.metadata);
-        }
+        bind('metadata', () => this.metadata);
     }
 
     from(value) {
@@ -36,16 +33,15 @@ export default class Nodule {
     }
 
     load() {
-        const bottle = getInjector(this.scope);
-        const { container } = bottle;
+        const { defaults, metadata } = getContainer(this.scope);
 
         const loader = loadEach(
-            loadFromObject(container.defaults),
+            loadFromObject(defaults),
             ...this.loaders,
         );
-        return loader(container.metadata).then((config) => {
+        return loader(metadata).then((config) => {
             // NB: will fail if Nodule is run twice in the same scope/bottle
-            bottle.factory('config', () => config);
+            bind('config', () => config);
             return config;
         });
     }
