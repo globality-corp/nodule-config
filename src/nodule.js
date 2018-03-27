@@ -1,4 +1,5 @@
 import { bind } from './bind';
+import { DEFAULT_SCOPE } from './constants';
 import { getContainer } from './injector';
 import {
     loadEach,
@@ -11,7 +12,7 @@ import Metadata from './metadata';
 
 export default class Nodule {
 
-    constructor(metadata, loaders = null, scope = null) {
+    constructor(metadata, loaders = null, scope = DEFAULT_SCOPE) {
         this.metadata = new Metadata(metadata);
         this.loaders = loaders || [];
         this.scope = scope;
