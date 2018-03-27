@@ -1,104 +1,138 @@
-# Opinionated configuration for Node projects
+# nodule-config
 
-[![CircleCI](https://circleci.com/gh/globality-corp/nodule-config/tree/master.svg?style=svg)](https://circleci.com/gh/globality-corp/nodule-config/tree/master)
+Opinionated configuration for Node applications
 
-We have a few Node based projects at [Globality](https://www.globality.com).
-Those Node projects have some configuration that is being loaded from ENV
-variables and some loading from credstash (secrets).
 
-The purpose of this global configuration layer is to have a way to load the
-configuration dynamically from the ENV variables and only load secrets if we
-need them.
+## Convention-Driven
 
-For example, in local dev we don't want any secrets to load from credstash
-because we don't want to have the AWS secrets floating around and complicating
-dev environments.
+Dependency injection (DI) is a good thing &trade; and [bottlejs](https://github.com/young-steveo/bottlejs) is a fine
+DI framework. However, DI factory functions will usually need to access configuration from external sources (such as
+environment variables and secret storage). Nodule is built on the premise that combining configuration with dependency
+injection factories works best with strong conventions:
 
-Also, right now the configuration layer is too verbose, this introduces a bit
-of magic like we have in [microcosm](https://l), our python library
+ -  Non-secret variables should be passed as environment variables
+ -  Secrets should be loaded from secure storage
+ -  Variables and secrets should be structured hierarchically, scoped by component name
+ -  Components should declare their own defaults and should define factories that use their scoped configuration
+ -  Factories should be aware of whether they are being used for unit testing and debugging
 
-## Basics
+These conventions are shared by the [Python microcosm](https://github.com/globality-corp/microcosm) framework.
 
-For the configuration layer to work, you need the `NAME` env var present. The
-library will warn you if you don't have it defined.
 
-The module will look for all the env variables prefixed with the app name and
-compile a list out of all of them, if you require secrets, it will get merged.
-
-### Before
-
-```
-  YOURAPPNAME__GROUP__VAR: 'X',
-  YOURAPPNAME__VAR: 'Y',
-  YOURAPPNAME__BOOL_VAR_FALSE: false,
-  YOURAPPNAME__BOOL_VAR_TRUE: true,
-  YOURAPPNAME__BOOL_VAR_FALSE_LITERAL: false,
-  YOURAPPNAME__BOOL_VAR_TRUE_LITERAL: true,
-  YOURAPPNAME__BOOL_VAR_FALSE_LITERAL_D: false,
-  YOURAPPNAME__BOOL_VAR_TRUE_LITERAL_D: true,
-  SECRET_VAR: 'SECRET_VALUE' // automatically loads from credstash if required
-```
-
-### After
-
-```
-{ 
-  group: { 
-    var: 'X'  
-  },
-  var: 'Y',
-  boolVarFalse: false,
-  boolVarTrue: true,
-  boolVarFalseLiteral: false,
-  boolVarTrueLiteral: true,
-  boolVarFalseLiteralD:
-  false,
-  boolVarTrueLiteralD:
-  true,
-  secretVar: 'SECRET_VALUE'
-}
-```
 ## Usage
 
-### Config
+### Application Initialization
 
-The module has 2 configuration options
+Application initialization needs access to the DI framework, which in turn, needs access to information about
+the application and configuration data.
 
-1. `secretLoaderPrefix` Defaults to `MICROCOSM`
+`Nodule` uses a simple `Metadata` format to initialize applications:
 
-`secretLoaderPrefix` is used in order to get the `version` and the `env` to
-look for in credstash. (see `secretLoader`).
+        const metadata = {
+            // the application's name is used to load configuration
+            name: 'myappname',
+            // factories may have different behavior during unit testing
+            testing: true,
+            // factories may have different behavior during local development
+            debug: false,
+        };
 
-Say your `secretLoaderPrefix` is `MICROCOSM`, it will look for the env and
-version in the env vars using this code
+With this `Metadata`, `Nodule` can load configuration using loader functions:
 
-```
-  const version = process.env[`${this.secretLoaderPrefix}_CONFIG_VERSION`];
-  const env = process.env[`${this.secretLoaderPrefix}_ENV`];
-```
+        import { Nodule, loadFromEnvironment } from 'nodule-config';
 
-Note: The code above is internal implementation, you don't need it in your app.
+        const nodule = new Nodule(metadata);
+        nodule.from(loadFromEnvironment).load().then(bottle => myInitFunc(bottle));
+
+Common loader functions also have shortcuts:
+
+        nodule.fromEnvironment().load().then(bottle => myInitFunc(bottle));
+
+These shortcuts can be chained to enable multiple loaders:
+
+        nodule.fromEnvironment().fromCredstash().load().then(bottle => myInitFunc(bottle));
+
+In the likely event that multiple loaders are used, `Nodule` will merge the loaders (and any defaults) in their
+declaration order.
 
 
-2. `parseBooleans` Defaults to `true`
+### Factory Registration
 
-Env vars are string by default, if you want the JS object to have the native
-boolean value, you pass true in this var.
+Applications and libraries need to define factories for injected components. `Nodule` uses a simple global registry
+of `bottle` instances and exposes these via the `getInjector` function:
 
-This will make `1`, `0`, `true`, `True`, `false` and `False` to "translate" to
-booleans. If this is false, you will get the string values and need to handle
-it in your application
+    import { getInjector } from 'nodule-config';
 
-### Load configuration
+    getInjector().factory('foo', (container) => {
+        // it's good practice to auto-mock "leaf" components during unit tests
+        if (container.metadata.testing) {
+            return () => 'value';
+        }
+        // it's great practice to use scoped configuration
+        return () => container.config.foo.value;
+    });
 
-```
-import { makeConfig, Loader } from "nodule-config";
+Since this pattern is so common, `Nodule` provides a `bind` shortcut:
 
-const loader = new Loader() // pass config as vars here if you need to
+    import { bind } from 'nodule-config';
 
-loader.toCombinedObject().then((configVars) => {
-  const config = makeConfig(vars);
+    bind('foo', myFactoryFunc);
 
-  // Do what you want with your configuratin
-})
-```
+Configuration should typically have sane defaults (esp. for local development). `Nodule` enables configuration of
+such defaults:
+
+    import { setDefaults } from 'nodule-config';
+
+    setDefaults('foo', {
+        key: 'value',
+    });
+
+
+## Loaders
+
+While `Nodule` defines several useful loaders out of the box, it does not presume to define every possible source
+of configuration. Fortunately, loaders can be defined as *any* function that takes `Metadata` and returns a suitably
+nested object:
+
+    function myLoader(metadata) {
+        return {
+             key: 'value'
+        };
+    }
+
+`Nodule` expectats that these nested objects map top-level keys to name used to bind factories and their injected
+components to the DI container:
+
+    {
+        // configuration for the foo component
+        foo: {
+            enabled: true,
+            password: 'very secure',
+        },
+        // configuration for the bar component
+        bar: {
+            password: 'super secret',
+        },
+    }
+
+### Environment Variable Loading
+
+Configuration via environment variables is incredibly common (and useful!). `Nodule` maps environment variables to
+nested objects using the following rules:
+
+  -  Only environment variables starting with the upper case value of `Metadata.name` are considered
+  -  Each environment variable is split on double underscores (`__`) to create nesting (of arbitrary depth)
+
+For example, the above example configuration could be loaded from:
+
+    MYAPPNAME__FOO__ENABLED=true
+    MYAPPNAME__FOO__PASSWORD="very secure"
+    MYAPPNAME__BAR__PASSWORD="super secret"
+
+Note that boolean values are coerced by default; this can be disabled.
+
+
+### Credstash Loading
+
+Configuration of secrets via environment variables is a bad (and insecure!) practice. One alternative is to load
+secrets from AWS DynamoDB with KMS encryption using the [Credstash](https://github.com/fugue/credstash) library.

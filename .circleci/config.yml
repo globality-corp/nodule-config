@@ -19,8 +19,7 @@ jobs:
           name: Authenticate NPM
           command: |
             touch .npmrc
-            curl -u$JFROG_AUTH https://globality.jfrog.io/globality/api/npm/auth > .npmrc
-            echo "registry=https://globality.jfrog.io/globality/api/npm/npm" >> .npmrc
+            echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
 
       - restore_cache:
           keys:
@@ -49,7 +48,7 @@ jobs:
 
       - run:
           name: Test
-          command: yarn test
+          command: yarn verify
 
       - persist_to_workspace:
           root: ~/repo
@@ -79,7 +78,7 @@ jobs:
 
       - run:
           name: Publish to NPM
-          command: npm publish
+          command: npm publish --access public
 
 workflows:
   version: 2

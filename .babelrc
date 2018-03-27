@@ -1,7 +1,12 @@
 {
-  "presets": ["es2015", "stage-2"],
+  "presets": ["env"],
   "plugins": [
-    "transform-decorators-legacy",
-    "transform-class-constructor-call"
+        "transform-decorators-legacy",
+        "transform-object-rest-spread",
+        "transform-async-to-generator",
+        ["transform-runtime", {
+            "polyfill": false,
+            "regenerator": true
+        }]
   ]
 }
