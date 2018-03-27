@@ -14,7 +14,16 @@ export function getInjector(scope = null) {
 }
 
 export function getContainer(scope = null) {
-    const bottle = getInjector(scope);
-    const { container } = bottle;
+    const { container } = getInjector(scope);
     return container;
+}
+
+export function getConfig(scope = null) {
+    const { config } = getContainer(scope);
+    return config;
+}
+
+export function getMetadata(scope = null) {
+    const { metadata } = getContainer(scope);
+    return metadata;
 }

@@ -1,5 +1,10 @@
 export { bind, setDefaults } from './bind';
-export { getContainer, getInjector } from './injector';
+export {
+    getContainer,
+    getConfig,
+    getInjector,
+    getMetadata,
+} from './injector';
 export {
     loadEach,
     loadFromCredstash,
