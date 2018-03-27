@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 
-import { SEPARATOR } from './constants';
+import { SEPARATOR } from '../constants';
 import toObject from './convert';
 
 
