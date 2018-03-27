@@ -1,4 +1,4 @@
-import getInjector from './injector';
+import { getInjector } from './injector';
 
 
 export function bind(name, factory, scope = null) {

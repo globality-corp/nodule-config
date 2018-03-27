@@ -1,6 +1,6 @@
 import { Bottle } from 'bottlejs';
 
-import getInjector from '../injector';
+import { getContainer, getInjector } from '../injector';
 
 
 describe('getInjector', () => {
@@ -17,10 +17,21 @@ describe('getInjector', () => {
         expect(getInjector()).toBe(bottle);
     });
 
-    it('should return differetn bottle instances for different scopes', () => {
+    it('should return different bottle instances for different scopes', () => {
         const bottle = getInjector();
 
         expect(getInjector('scope')).not.toBe(bottle);
+    });
+
+});
+
+
+describe('getContainer', () => {
+
+    it('should return a container', () => {
+        const container = getContainer();
+
+        expect(container).toBeDefined();
     });
 
 });
