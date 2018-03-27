@@ -1,4 +1,4 @@
-import getInjector from './injector';
+import { getInjector } from './injector';
 import {
     loadEach,
     loadFromCredstash,
