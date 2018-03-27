@@ -1,4 +1,4 @@
-import getInjector from '../injector';
+import { getContainer, getInjector } from '../injector';
 import { bind, setDefaults } from '../bind';
 
 
@@ -23,8 +23,7 @@ describe('bind', () => {
 describe('setDefaults', () => {
 
     it('sets defaults', () => {
-        const bottle = getInjector();
-        const { container } = bottle;
+        const container = getContainer();
 
         expect(container.defaults.foo).toBeUndefined();
 
@@ -35,8 +34,7 @@ describe('setDefaults', () => {
     });
 
     it('preserves latest call', () => {
-        const bottle = getInjector();
-        const { container } = bottle;
+        const container = getContainer();
 
         setDefaults('foo', { bar: 'baz' });
         setDefaults('foo', { baz: 'bar' });

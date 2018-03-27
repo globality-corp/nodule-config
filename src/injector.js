@@ -1,7 +1,7 @@
 import { Bottle } from 'bottlejs';
 
 
-export default function getInjector(scope = null) {
+export function getInjector(scope = null) {
     const key = scope || 'nodule';
 
     const bottle = Bottle.pop(key);
@@ -11,4 +11,10 @@ export default function getInjector(scope = null) {
     }
 
     return bottle;
+}
+
+export function getContainer(scope = null) {
+    const bottle = getInjector(scope);
+    const { container } = bottle;
+    return container;
 }

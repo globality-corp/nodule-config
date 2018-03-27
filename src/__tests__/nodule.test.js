@@ -1,5 +1,5 @@
 import { loadFromObject } from '../loaders';
-import getInjector from '../injector';
+import { getInjector } from '../injector';
 import Nodule from '../nodule';
 
 
