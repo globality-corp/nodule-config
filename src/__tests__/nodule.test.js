@@ -7,10 +7,7 @@ describe('Nodule', () => {
     let nodule;
 
     beforeEach(() => {
-        nodule = new Nodule({
-            name: 'test',
-            testing: true,
-        });
+        nodule = Nodule.testing();
     });
 
     it('preserve metadata', async () => {

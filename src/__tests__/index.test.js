@@ -1,11 +1,10 @@
-import { Bottle } from 'bottlejs';
 import { get } from 'lodash';
 
 import {
     bind,
+    clearBinding,
     getInjector,
     loadFromObject,
-    Metadata,
     Nodule,
     setDefaults,
 } from '..';
@@ -14,10 +13,8 @@ import {
 describe('api', () => {
 
     beforeEach(() => {
-        Bottle.clear();
-
+        clearBinding('foo');
         setDefaults('foo', { value: 42 });
-
         // NB: we only reference defaults here to enable the first (non-standard) test case
         bind('foo', container => get(container, 'config.foo.value') || get(container, 'defaults.foo.value'));
     });
@@ -33,12 +30,7 @@ describe('api', () => {
         const bottle = getInjector();
         const { container } = bottle;
 
-        const nodule = new Nodule(
-            new Metadata({
-                name: test,
-                testing: true,
-            }),
-        );
+        const nodule = Nodule.testing();
 
         const config = await nodule.from(
             loadFromObject({

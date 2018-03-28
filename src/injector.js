@@ -1,5 +1,5 @@
 import { Bottle } from 'bottlejs';
-import { get } from 'lodash';
+import { get, unset } from 'lodash';
 
 import { DEFAULT_SCOPE } from './constants';
 
@@ -33,4 +33,21 @@ export function getDefaults(scope) {
 
 export function getMetadata(scope) {
     return getContainer('metadata', scope);
+}
+
+/* Clear references to a specific named binding.
+ */
+export function clearBinding(name, scope) {
+    const bottle = getInjector(scope);
+    unset(bottle.providerMap, name);
+    unset(bottle.container, name);
+    unset(bottle.container, `${name}Provider`);
+}
+
+/* Reset a specific binding.
+ */
+export function resetBinding(name, scope) {
+    clearBinding(name, scope);
+    const bottle = getInjector(scope);
+    bottle.provider(name, bottle.originalFactory[name]);
 }

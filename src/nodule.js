@@ -45,4 +45,8 @@ export default class Nodule {
             return config;
         });
     }
+
+    static testing(name = 'test') {
+        return new Nodule({ name, testing: true });
+    }
 }

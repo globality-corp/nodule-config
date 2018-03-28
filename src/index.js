@@ -1,9 +1,11 @@
 export { bind, setDefaults } from './bind';
 export {
+    clearBinding,
     getContainer,
     getConfig,
     getInjector,
     getMetadata,
+    restBinding,
 } from './injector';
 export {
     loadEach,
