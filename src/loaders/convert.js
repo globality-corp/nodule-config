@@ -1,6 +1,6 @@
 import { camelCase, set } from 'lodash';
 
-import { SEPARATOR } from './constants';
+import { SEPARATOR } from '../constants';
 
 
 /* Transform environment variables to dotted keys.

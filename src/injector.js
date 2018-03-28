@@ -1,9 +1,11 @@
 import { Bottle } from 'bottlejs';
+import { get, unset } from 'lodash';
+
+import { DEFAULT_SCOPE } from './constants';
 
 
-export function getInjector(scope = null) {
-    const key = scope || 'nodule';
-
+export function getInjector(scope) {
+    const key = scope || DEFAULT_SCOPE;
     const bottle = Bottle.pop(key);
 
     if (!bottle.providerMap.defaults) {
@@ -13,22 +15,39 @@ export function getInjector(scope = null) {
     return bottle;
 }
 
-export function getContainer(scope = null) {
+export function getContainer(target, scope) {
     const { container } = getInjector(scope);
+    if (target) {
+        return get(container, target);
+    }
     return container;
 }
 
-export function getConfig(scope = null) {
-    const { config } = getContainer(scope);
-    return config;
+export function getConfig(scope) {
+    return getContainer('config', scope);
 }
 
-export function getDefaults(scope = null) {
-    const { defaults } = getContainer(scope);
-    return defaults;
+export function getDefaults(scope) {
+    return getContainer('defaults', scope);
 }
 
-export function getMetadata(scope = null) {
-    const { metadata } = getContainer(scope);
-    return metadata;
+export function getMetadata(scope) {
+    return getContainer('metadata', scope);
+}
+
+/* Clear references to a specific named binding.
+ */
+export function clearBinding(name, scope) {
+    const bottle = getInjector(scope);
+    unset(bottle.providerMap, name);
+    unset(bottle.container, name);
+    unset(bottle.container, `${name}Provider`);
+}
+
+/* Reset a specific binding.
+ */
+export function resetBinding(name, scope) {
+    clearBinding(name, scope);
+    const bottle = getInjector(scope);
+    bottle.provider(name, bottle.originalFactory[name]);
 }

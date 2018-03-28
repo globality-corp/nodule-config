@@ -1,7 +1,10 @@
+import { set } from 'lodash';
+
+import { DEFAULT_SCOPE } from './constants';
 import { getDefaults, getInjector } from './injector';
 
 
-export function bind(name, factory, scope = null) {
+export function bind(name, factory, scope = DEFAULT_SCOPE) {
     const bottle = getInjector(scope);
 
     if (!bottle.providerMap[name]) {
@@ -15,9 +18,9 @@ function initDefaults() {
 }
 
 
-export function setDefaults(name, object, scope = null) {
+export function setDefaults(name, object, scope = DEFAULT_SCOPE) {
     bind('defaults', initDefaults);
 
     const defaults = getDefaults(scope);
-    defaults[name] = object;
+    set(defaults, name, object);
 }

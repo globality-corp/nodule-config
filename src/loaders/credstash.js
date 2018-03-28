@@ -2,7 +2,7 @@ import { merge } from 'lodash';
 
 import Credstash from 'credstash';
 
-import { CREDSTASH_PREFIX } from './constants';
+import { CREDSTASH_PREFIX } from '../constants';
 import toObject from './convert';
 
 

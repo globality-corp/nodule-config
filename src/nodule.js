@@ -1,4 +1,5 @@
 import { bind } from './bind';
+import { DEFAULT_SCOPE } from './constants';
 import { getContainer } from './injector';
 import {
     loadEach,
@@ -11,7 +12,7 @@ import Metadata from './metadata';
 
 export default class Nodule {
 
-    constructor(metadata, loaders = null, scope = null) {
+    constructor(metadata, loaders = null, scope = DEFAULT_SCOPE) {
         this.metadata = new Metadata(metadata);
         this.loaders = loaders || [];
         this.scope = scope;
@@ -33,16 +34,19 @@ export default class Nodule {
     }
 
     load() {
-        const { defaults, metadata } = getContainer(this.scope);
+        const { defaults, metadata } = getContainer(null, this.scope);
 
         const loader = loadEach(
             loadFromObject(defaults),
             ...this.loaders,
         );
         return loader(metadata).then((config) => {
-            // NB: will fail if Nodule is run twice in the same scope/bottle
             bind('config', () => config);
             return config;
         });
+    }
+
+    static testing(name = 'test') {
+        return new Nodule({ name, testing: true });
     }
 }
