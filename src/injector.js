@@ -23,8 +23,12 @@ export function getContainer(target, scope) {
     return container;
 }
 
-export function getConfig(scope) {
-    return getContainer('config', scope);
+export function getConfig(target, scope) {
+    const config = getContainer('config', scope);
+    if (target) {
+        return get(config, target);
+    }
+    return config;
 }
 
 export function getDefaults(scope) {
