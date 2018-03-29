@@ -9,7 +9,10 @@ export function bind(name, factory, scope = DEFAULT_SCOPE) {
 
     if (!bottle.providerMap[name]) {
         bottle.factory(name, factory);
+        return true;
     }
+
+    return false;
 }
 
 

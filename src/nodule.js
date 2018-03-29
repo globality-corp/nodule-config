@@ -33,6 +33,10 @@ export default class Nodule {
         return this.from(loadFromEnvironment);
     }
 
+    fromObject(obj) {
+        return this.from(loadFromObject(obj));
+    }
+
     load() {
         const { defaults, metadata } = getContainer(null, this.scope);
 
