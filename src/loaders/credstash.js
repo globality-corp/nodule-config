@@ -61,7 +61,6 @@ export default async function loadFromCredstash(metadata) {
         }
 
         // allow bypassing credstash during debug
-        console.log(message); // eslint-disable-line no-console
         return {};
     }
 
@@ -74,7 +73,6 @@ export default async function loadFromCredstash(metadata) {
         }
 
         // allow bypassing credstash during debug
-        console.log(message); // eslint-disable-line no-console
         return {};
     }
 
