@@ -54,12 +54,30 @@ export default async function loadFromCredstash(metadata) {
 
     const version = process.env[`${CREDSTASH_PREFIX}_CONFIG_VERSION`];
     if (!version) {
-        throw new Error(`Must define environment variable: ${CREDSTASH_PREFIX}_CONFIG_VERSION`);
+        const message = `Must define environment variable: ${CREDSTASH_PREFIX}_CONFIG_VERSION`;
+
+        if (!metadata.debug) {
+            throw new Error(message);
+        }
+
+        // allow bypassing credstash during debug
+        console.log(message); // eslint-disable-line no-console
+        return {};
     }
+
     const environment = process.env[`${CREDSTASH_PREFIX}_ENVIRONMENT`];
     if (!environment) {
-        throw new Error(`Must define environment variable: ${CREDSTASH_PREFIX}_ENVIRONMENT`);
+        const message = `Must define environment variable: ${CREDSTASH_PREFIX}_ENVIRONMENT`;
+
+        if (!metadata.debug) {
+            throw new Error(message);
+        }
+
+        // allow bypassing credstash during debug
+        console.log(message); // eslint-disable-line no-console
+        return {};
     }
+
     const table = `${environment}-${metadata.name}-config`;
     return loadSecrets(table, version);
 }
