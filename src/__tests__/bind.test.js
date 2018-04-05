@@ -33,13 +33,14 @@ describe('setDefaults', () => {
         });
     });
 
-    it('preserves latest call', () => {
+    it('merges latest call', () => {
         const container = getContainer();
 
         setDefaults('foo', { bar: 'baz' });
         setDefaults('foo', { baz: 'bar' });
         expect(container.defaults.foo).toEqual({
             baz: 'bar',
+            bar: 'baz',
         });
     });
 });

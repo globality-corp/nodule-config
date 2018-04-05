@@ -1,4 +1,4 @@
-import { set } from 'lodash';
+import { merge, set } from 'lodash';
 
 import { DEFAULT_SCOPE } from './constants';
 import { getDefaults, getInjector } from './injector';
@@ -25,5 +25,7 @@ export function setDefaults(name, object, scope = DEFAULT_SCOPE) {
     bind('defaults', initDefaults);
 
     const defaults = getDefaults(scope);
-    set(defaults, name, object);
+    const value = {};
+    set(value, name, object);
+    merge(defaults, value);
 }
