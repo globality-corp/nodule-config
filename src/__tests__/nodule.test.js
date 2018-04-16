@@ -64,4 +64,18 @@ describe('Nodule', () => {
             foo: 'object',
         });
     });
+
+    it('loads from objects', async () => {
+        const obj1 = { foo: { bar: 'baz' } };
+        const obj2 = { foo: { baz: 'bar' } };
+        const config = await nodule.fromEnvironment()
+            .fromObjects(obj1, obj2).load();
+
+        expect(config).toEqual({
+            foo: {
+                bar: 'baz',
+                baz: 'bar',
+            },
+        });
+    });
 });

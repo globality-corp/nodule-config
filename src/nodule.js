@@ -1,3 +1,4 @@
+import merge from 'lodash/merge';
 import { bind } from './bind';
 import { DEFAULT_SCOPE } from './constants';
 import { getContainer } from './injector';
@@ -34,6 +35,11 @@ export default class Nodule {
     }
 
     fromObject(obj) {
+        return this.from(loadFromObject(obj));
+    }
+
+    fromObjects(...objects) {
+        const obj = merge({}, ...objects);
         return this.from(loadFromObject(obj));
     }
 
