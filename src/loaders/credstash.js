@@ -46,7 +46,7 @@ async function loadSecrets(table, semver) {
 
 
 export default async function loadFromCredstash(metadata) {
-    if (metadata.testing) {
+    if (metadata.testing || metadata.debug) {
         // do not load from external sources during unit tests
         return {
         };
