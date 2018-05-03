@@ -1,4 +1,3 @@
-import sinon from 'sinon';
 import AWS from 'aws-sdk-mock';
 
 import loadFromSecretsManager from '../secretsManager';
