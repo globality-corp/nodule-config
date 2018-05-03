@@ -14,7 +14,6 @@ export function dotify(envvar) {
  */
 export function convertBoolean(value) {
     const stringValue = value.toString().toLowerCase();
-    console.log(stringValue);
     if (stringValue === '0' || stringValue === 'false') {
         return false;
     }
