@@ -1,5 +1,4 @@
 import AWS from 'aws-sdk';
-import { merge } from 'lodash';
 
 import { CREDSTASH_PREFIX } from '../constants';
 import { convert } from './convert';

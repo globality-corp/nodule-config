@@ -9,7 +9,7 @@ export {
 } from './injector';
 export {
     loadEach,
-    loadFromCredstash,
+    loadFromSecretsManager,
     loadFromEnvironment,
     loadFromObject,
 } from './loaders';
