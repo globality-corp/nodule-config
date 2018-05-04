@@ -8,41 +8,34 @@ export function getClient() {
     return new AWS.SecretsManager();
 }
 
-function convertAllKeys(obj) {
+function convertBooleanValues(obj) {
     if (typeof obj !== 'object') return convert(obj);
 
     const newObj = {};
 
     Object.keys(obj).forEach((name) => {
-        newObj[name] = convertAllKeys(obj[name]);
+        newObj[name] = convertBooleanValues(obj[name]);
     });
 
     return newObj;
 }
 
-export default async function loadFromSecretsManager(metadata) {
-    const version = process.env[`${CREDSTASH_PREFIX}_CONFIG_VERSION`];
-    const environment = process.env[`${CREDSTASH_PREFIX}_ENVIRONMENT`];
+function getEnvVarValueOrFail(metadata, envVarName) {
+    const value = process.env[envVarName];
 
-    if (!version) {
-        const message = `Must define environment variable: ${CREDSTASH_PREFIX}_CONFIG_VERSION`;
-
-        if (!metadata.debug) {
-            throw new Error(message);
-        }
-
-        // allow bypassing credstash during debug
-        return {};
+    if (!value && !metadata.debug) {
+        const message = `Must define environment variable: ${envVarName}`;
+        throw new Error(message);
     }
 
-    if (!environment) {
-        const message = `Must define environment variable: ${CREDSTASH_PREFIX}_ENVIRONMENT`;
+    return value;
+}
 
-        if (!metadata.debug) {
-            throw new Error(message);
-        }
+export default async function loadFromSecretsManager(metadata) {
+    const version = getEnvVarValueOrFail(metadata, `${CREDSTASH_PREFIX}_CONFIG_VERSION`);
+    const environment = getEnvVarValueOrFail(metadata, `${CREDSTASH_PREFIX}_ENVIRONMENT`);
 
-        // allow bypassing credstash during debug
+    if (!version || !environment) {
         return {};
     }
 
@@ -57,7 +50,7 @@ export default async function loadFromSecretsManager(metadata) {
             if (err) {
                 reject(err);
             }
-            resolve(convertAllKeys(JSON.parse(data.SecretString)));
+            resolve(convertBooleanValues(JSON.parse(data.SecretString)));
         });
     });
 
