@@ -50,7 +50,7 @@ export default async function loadFromSecretsManager(metadata) {
             if (err) {
                 reject(err);
             }
-            resolve(convertBooleanValues(JSON.parse(data.SecretString)));
+            resolve(convertBooleanValues(JSON.parse(data.SecretString).config));
         });
     });
 
