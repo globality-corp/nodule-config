@@ -7,7 +7,12 @@ import Metadata from '../../metadata';
 describe('loadFromSecretsManager', () => {
     it('does not call the AWS client when microcosm config is not present', async () => {
         const getSecretSpy = jest.fn();
-        AWS.mock('SecretsManager', 'getSecretValue', getSecretSpy);
+        AWS.mock('SecretsManager', 'getSecretValue', (params, callback) => {
+            callback(null, {
+                SecretString: '{ "config": {} }',
+            });
+        });
+
 
         const metadata = new Metadata({
             name: 'test',
@@ -29,7 +34,7 @@ describe('loadFromSecretsManager', () => {
 
         AWS.mock('SecretsManager', 'getSecretValue', (params, callback) => {
             callback(null, {
-                SecretString: '{"test": true}',
+                SecretString: '{ "config": { "test": true } }',
             });
         });
 
@@ -56,9 +61,12 @@ describe('loadFromSecretsManager', () => {
             callback(null, {
                 SecretString: JSON.stringify(
                     {
-                        postgres: {
-                            password: 'xyz',
-                            isDatabase: 'True',
+                        config:
+                        {
+                            postgres: {
+                                password: 'xyz',
+                                isDatabase: 'True',
+                            },
                         },
                     },
                 ),

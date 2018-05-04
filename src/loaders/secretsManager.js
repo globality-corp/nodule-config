@@ -22,6 +22,7 @@ function convertBooleanValues(obj) {
 
 function getEnvVarValueOrFail(metadata, envVarName) {
     const value = process.env[envVarName];
+    console.log(value);
 
     if (!value && !metadata.debug) {
         const message = `Must define environment variable: ${envVarName}`;
@@ -36,6 +37,10 @@ export default async function loadFromSecretsManager(metadata) {
     const environment = getEnvVarValueOrFail(metadata, `${CREDSTASH_PREFIX}_ENVIRONMENT`);
 
     if (!version || !environment) {
+        if (!metadata.debug) {
+            const message = 'Could not find required env variables';
+            throw new Error(message);
+        }
         return {};
     }
 
