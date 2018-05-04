@@ -3,7 +3,7 @@ import { DEFAULT_SCOPE } from './constants';
 import { getContainer } from './injector';
 import {
     loadEach,
-    loadFromCredstash,
+    loadFromSecretsManager,
     loadFromEnvironment,
     loadFromObject,
 } from './loaders';
@@ -25,8 +25,8 @@ export default class Nodule {
         return this;
     }
 
-    fromCredstash() {
-        return this.from(loadFromCredstash);
+    fromSecretsManager() {
+        return this.from(loadFromSecretsManager);
     }
 
     fromEnvironment() {
