@@ -5,7 +5,11 @@ import { convert } from './convert';
 
 
 export function getClient() {
-    return new AWS.SecretsManager();
+    const awsRegion = process.env.AWS_DEFAULT_REGION || process.env.AWS_REGION;
+
+    return new AWS.SecretsManager({
+        region: awsRegion,
+    });
 }
 
 function convertBooleanValues(obj) {
@@ -22,7 +26,6 @@ function convertBooleanValues(obj) {
 
 function getEnvVarValueOrFail(metadata, envVarName) {
     const value = process.env[envVarName];
-    console.log(value);
 
     if (!value && !metadata.debug) {
         const message = `Must define environment variable: ${envVarName}`;
