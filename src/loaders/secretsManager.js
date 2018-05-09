@@ -36,6 +36,10 @@ function getEnvVarValueOrFail(metadata, envVarName) {
 }
 
 export default async function loadFromSecretsManager(metadata) {
+    if (metadata.testing || metadata.debug) {
+        // do not load from external sources during unit tests
+        return {};
+    }
     const version = getEnvVarValueOrFail(metadata, `${CREDSTASH_PREFIX}_CONFIG_VERSION`);
     const environment = getEnvVarValueOrFail(metadata, `${CREDSTASH_PREFIX}_ENVIRONMENT`);
 
