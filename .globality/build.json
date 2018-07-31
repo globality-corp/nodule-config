@@ -1,0 +1,7 @@
+{
+  "type": "node-module",
+  "params": {
+    "name": "nodule-config",
+    "open_source": true
+  }
+}
