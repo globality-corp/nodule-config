@@ -1,3 +1,5 @@
+export { env } from './loaders/env';
+
 export { bind, setDefaults } from './bind';
 export {
     clearBinding,

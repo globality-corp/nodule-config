@@ -15,6 +15,7 @@
     "dependencies": {
         "aws-sdk": "^2.231.1",
         "bottlejs": "^1.7.0",
+        "dotenv": "^6.0.0",
         "lodash": "^4.17.5"
     },
     "devDependencies": {
