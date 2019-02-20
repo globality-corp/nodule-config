@@ -41,6 +41,7 @@ export default class Nodule {
     load() {
         const { defaults, metadata } = getContainer(null, this.scope);
 
+        // NB: This can be further optimized to load each loader only once
         const loader = loadEach(
             loadFromObject(defaults),
             ...this.loaders,
