@@ -50,7 +50,7 @@ Common loader functions also have shortcuts:
 
 These shortcuts can be chained to enable multiple loaders:
 
-        nodule.fromEnvironment().fromCredstash().load().then(bottle => myInitFunc(bottle));
+        nodule.fromEnvironment().fromSecretsManager().load().then(bottle => myInitFunc(bottle));
 
 In the likely event that multiple loaders are used, `Nodule` will merge the loaders (and any defaults) in their
 declaration order.
@@ -132,7 +132,7 @@ For example, the above example configuration could be loaded from:
 Note that boolean values are coerced by default; this can be disabled.
 
 
-### Credstash Loading
+### SecretsManager Loading
 
 Configuration of secrets via environment variables is a bad (and insecure!) practice. One alternative is to load
-secrets from AWS DynamoDB with KMS encryption using the [Credstash](https://github.com/fugue/credstash) library.
+secrets from AWS SecretsManager using the aws-sdk

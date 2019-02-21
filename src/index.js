@@ -5,11 +5,11 @@ export {
     getConfig,
     getInjector,
     getMetadata,
-    restBinding,
+    resetBinding,
 } from './injector';
 export {
     loadEach,
-    loadFromCredstash,
+    loadFromSecretsManager,
     loadFromEnvironment,
     loadFromObject,
 } from './loaders';
