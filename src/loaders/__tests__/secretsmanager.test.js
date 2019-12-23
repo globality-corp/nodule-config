@@ -88,6 +88,41 @@ describe('loadFromSecretsManager', () => {
         delete process.env.MICROCOSM_ENVIRONMENT;
     });
 
+    it('Converts snake_cased variables from the secret string', async () => {
+        process.env.MICROCOSM_CONFIG_VERSION = '1.0.0';
+        process.env.MICROCOSM_ENVIRONMENT = 'whatever';
+
+        AWS.mock('SecretsManager', 'getSecretValue', (params, callback) => {
+            callback(null, {
+                SecretString: JSON.stringify(
+                    {
+                        config:
+                        {
+                            secret_config: {
+                                auth_token: 'xyz',
+                                store_secret: 'True',
+                            },
+                        },
+                    },
+                ),
+            });
+        });
+
+        const metadata = new Metadata({
+            name: 'test',
+            testing: true,
+            debug: true,
+        });
+        const config = await loadFromSecretsManager(metadata);
+
+        expect(config.secretConfig.authToken).toEqual('xyz');
+        expect(config.secretConfig.storeSecret).toEqual(true);
+
+        AWS.restore('SecretsManager');
+
+        delete process.env.MICROCOSM_CONFIG_VERSION;
+        delete process.env.MICROCOSM_ENVIRONMENT;
+    });
 
 });
 
