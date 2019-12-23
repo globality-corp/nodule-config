@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import { camelCase } from 'lodash';
 
 import { CREDSTASH_PREFIX } from '../constants';
 import { convert } from './convert';
@@ -12,13 +13,13 @@ export function getClient() {
     });
 }
 
-function convertBooleanValues(obj) {
+function convertValues(obj) {
     if (typeof obj !== 'object') return convert(obj);
 
     const newObj = {};
 
     Object.keys(obj).forEach((name) => {
-        newObj[name] = convertBooleanValues(obj[name]);
+        newObj[camelCase(name)] = convertValues(obj[name]);
     });
 
     return newObj;
@@ -58,7 +59,7 @@ export default async function loadFromSecretsManager(metadata) {
             if (err) {
                 reject(err);
             }
-            resolve(convertBooleanValues(JSON.parse(data.SecretString).config));
+            resolve(convertValues(JSON.parse(data.SecretString).config));
         });
     });
 
