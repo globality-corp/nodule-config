@@ -13,12 +13,12 @@
     "author": "Globality Engineering",
     "license": "MIT",
     "dependencies": {
-        "aws-sdk": "^2.231.1",
+        "aws-sdk": "^2.829.0",
         "bottlejs": "^1.7.0",
-        "lodash": "^4.17.15"
+        "lodash": "^4.17.20"
     },
     "devDependencies": {
-        "aws-sdk-mock": "^2.0.0",
+        "aws-sdk-mock": "^5.1.0",
         "@babel/cli": "^7.7.0",
         "@babel/core": "^7.7.2",
         "@babel/node": "^7.7.0",
