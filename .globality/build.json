@@ -1,5 +1,8 @@
 {
   "params": {
+    "extra_publication": {
+      "jfrog": true
+    },
     "name": "nodule-config",
     "open_source": true
   },
