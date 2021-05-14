@@ -1,6 +1,6 @@
 {
     "name": "@globality/nodule-config",
-    "version": "2.13.4",
+    "version": "2.13.5",
     "description": "Opinionated configuration for Node application",
     "main": "lib/",
     "repository": "https://github.com/globality-corp/nodule-config",
