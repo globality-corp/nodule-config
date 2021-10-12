@@ -1,6 +1,6 @@
 {
     "name": "@globality/nodule-config",
-    "version": "2.13.5",
+    "version": "2.13.6",
     "description": "Opinionated configuration for Node application",
     "main": "lib/",
     "repository": "https://github.com/globality-corp/nodule-config",
@@ -15,7 +15,7 @@
     "dependencies": {
         "aws-sdk": "2.829.0",
         "bottlejs": "1.7.2",
-        "lodash": "4.17.20"
+        "lodash": "^4.17.21"
     },
     "devDependencies": {
         "aws-sdk-mock": "^5.1.0",
