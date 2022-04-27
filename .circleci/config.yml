@@ -71,18 +71,29 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: Authenticate NPM
+          command: |
+            touch .npmrc
+            curl -u$JFROG_AUTH https://globality.jfrog.io/globality/api/npm/auth > .npmrc
+            echo "registry=https://globality.jfrog.io/globality/api/npm/npm" >> .npmrc
+
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}
+
+            - app-{{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "yarn.lock" }}
+            - app-{{ .Environment.CACHE_VERSION }}-dependencies-
 
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: |
+            yarn install --pure-lockfile
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "yarn.lock" }}
+
+          key: app-{{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "yarn.lock" }}
 
       - persist_to_repo_workspace
 
