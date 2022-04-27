@@ -8,7 +8,8 @@ export function getInjector(scope?: string): Bottle {
   const key = scope || DEFAULT_SCOPE;
   const bottle = Bottle.pop(key);
 
-  if (!get(bottle.providerMap, "defaults")) {
+  // @ts-expect-error providerMap is not typed
+  if (!bottle.providerMap.defaults) {
     bottle.factory("defaults", () => ({}));
   }
 
