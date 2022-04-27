@@ -1,7 +1,7 @@
 import AWS from "aws-sdk-mock";
 
-import loadFromSecretsManager from "../secretsManager";
 import Metadata from "../../metadata";
+import loadFromSecretsManager from "../secretsManager";
 
 describe("loadFromSecretsManager", () => {
   it("does not call the AWS client when microcosm config is not present", async () => {

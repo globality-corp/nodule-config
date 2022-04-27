@@ -1,5 +1,5 @@
-import { getContainer, getInjector } from "../injector";
 import { bind, setDefaults } from "../bind";
+import { getContainer, getInjector } from "../injector";
 
 describe("bind", () => {
   it("registers a factory", () => {

@@ -1,5 +1,5 @@
-import loadFromEnvironment from "../environ";
 import Metadata from "../../metadata";
+import loadFromEnvironment from "../environ";
 
 describe("loadFromEnvironment", () => {
   beforeAll(() => {

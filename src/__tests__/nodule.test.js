@@ -1,5 +1,5 @@
-import { loadFromObject } from "../loaders";
 import { getInjector } from "../injector";
+import { loadFromObject } from "../loaders";
 import Nodule from "../nodule";
 
 describe("Nodule", () => {

@@ -2,6 +2,7 @@ import AWS from "aws-sdk";
 import { camelCase } from "lodash";
 
 import { CREDSTASH_PREFIX } from "../constants";
+
 import { convert } from "./convert";
 
 export function getClient() {

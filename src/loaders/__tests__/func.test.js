@@ -1,5 +1,5 @@
-import { loadEach, loadFromObject } from "../func";
 import Metadata from "../../metadata";
+import { loadEach, loadFromObject } from "../func";
 
 function loadFromObjectAsync(config) {
   return async () => Promise.resolve(config);

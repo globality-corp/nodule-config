@@ -6,8 +6,8 @@
     "repository": "https://github.com/globality-corp/nodule-config",
     "scripts": {
         "build": "yarn tsc --declaration --declarationMap -p tsconfig.build.json",
-        "lint": "prettier --check ./src && eslint ./src/**",
-        "lint:fix": "prettier --write ./src && eslint ./src/** --fix",
+        "lint": "gi-eslint-run lint",
+        "lint:fix": "gi-eslint-run lint --fix",
         "test": "jest src --runInBand",
         "verify": "yarn lint && yarn test"
     },
@@ -16,26 +16,15 @@
     "dependencies": {
         "aws-sdk": "2.829.0",
         "bottlejs": "1.7.2",
-        "lodash": "^4.17.21"
+        "lodash": "^4.17.21",
+        "ts-toolbelt": "^9.6.0"
     },
     "devDependencies": {
-        "@babel/cli": "^7.7.0",
-        "@babel/core": "^7.7.2",
-        "@babel/node": "^7.7.0",
-        "@babel/preset-env": "^7.7.1",
+        "@globality/gi-eslint-config": "^1.0.15",
         "@types/lodash": "^4.14.182",
-        "@typescript-eslint/eslint-plugin": "^5.21.0",
-        "@typescript-eslint/parser": "^5.21.0",
         "aws-sdk-mock": "^5.1.0",
-        "eslint": "^8.14.0",
-        "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-config-airbnb-typescript": "^17.0.0",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-import": "^2.26.0",
         "jest": "27.x",
-        "prettier": "^2.6.2",
         "ts-jest": "^27.1.4",
-        "ts-toolbelt": "^9.6.0",
         "typescript": "^4.6.3"
     },
     "resolutions": {

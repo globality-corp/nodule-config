@@ -1,6 +1,7 @@
 import { merge } from "lodash";
 
 import { SEPARATOR } from "../constants";
+
 import toObject from "./convert";
 
 /* Load configuration from environment variables.
