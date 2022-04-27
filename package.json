@@ -8,7 +8,7 @@
         "build": "yarn tsc --declaration --declarationMap -p tsconfig.build.json",
         "lint": "prettier --check ./src && eslint ./src/**",
         "lint:fix": "prettier --write ./src && eslint ./src/** --fix",
-        "test": "jest src",
+        "test": "jest src --runInBand",
         "verify": "yarn lint && yarn test"
     },
     "author": "Globality Engineering",
