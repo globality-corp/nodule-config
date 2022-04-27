@@ -3,9 +3,9 @@ export {
     clearBinding,
     getContainer,
     getConfig,
-    getInjector,
     getMetadata,
     resetBinding,
+    getInjector
 } from './injector';
 export {
     loadEach,

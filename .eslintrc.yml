@@ -1,0 +1,74 @@
+---
+root: true
+
+env:
+    node: true
+    jest: true
+
+extends:
+    - eslint-config-airbnb-base
+    - plugin:import/errors
+    - plugin:import/warnings
+    - prettier
+    - prettier/prettier
+
+rules:
+    no-console: error
+    no-debugger: error
+    no-nested-ternary: 0
+    no-underscore-dangle: 0
+    prefer-promise-reject-errors: 0
+    import/extensions: 0
+    import/no-extraneous-dependencies: ['error', { optionalDependencies: false }]
+    import/no-named-as-default: 0
+    import/no-unresolved: 0
+    import/default: 1
+    import/namespace: 1
+    import/prefer-default-export: 0
+    import/no-cycle: 0
+
+globals:
+    Promise: true
+    describe: true
+    it: true
+
+overrides:
+    # TypeScript file linting overrides
+    - files:
+          - '**/*.ts'
+
+      parser: '@typescript-eslint/parser'
+
+      parserOptions:
+          project: tsconfig.json
+
+      plugins:
+          - '@typescript-eslint'
+
+      extends:
+          - plugin:import/errors
+          - plugin:import/warnings
+          - plugin:@typescript-eslint/eslint-recommended
+          - plugin:@typescript-eslint/recommended
+          - plugin:@typescript-eslint/recommended-requiring-type-checking
+          - airbnb-typescript/base
+          - prettier
+          - prettier/prettier
+
+      rules:
+          # We need to repeat the rules for js files here as they seem to get unset when using
+          # airbnb-typescript. Ideally we should convert these .yml files to .js files, and store these rules
+          # in a variable that can be shared.
+          no-console: error
+          no-debugger: error
+          no-nested-ternary: 0
+          no-underscore-dangle: 0
+          prefer-promise-reject-errors: 0
+          import/extensions: 0
+          import/no-extraneous-dependencies: ['error', { optionalDependencies: false }]
+          import/no-named-as-default: 0
+          import/no-unresolved: 0
+          import/default: 1
+          import/namespace: 1
+          import/prefer-default-export: 0
+          import/no-cycle: 0
