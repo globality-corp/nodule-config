@@ -4,7 +4,7 @@ executors:
   node-executor:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:14.17.6
+      - image: cimg/node:14.19.0
         environment:
           EXTRA_INDEX_URL: "InjectedDuringRuntime"
           AWS_ECR_DOMAIN: "InjectedDuringRuntime"
@@ -14,7 +14,7 @@ executors:
   globality-build-executor:
     working_directory: ~/repo
     docker:
-      - image: ${AWS_ECR_DOMAIN}/globality-build:2021.41.0
+      - image: ${AWS_ECR_DOMAIN}/globality-build:2022.15.0
         aws_auth:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
@@ -52,6 +52,7 @@ commands:
       - run:
           name: Publish to NPM
           command: |
+            echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
             npm publish
 
   publish_to_jfrog:
@@ -70,10 +71,6 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: Authenticate NPM
-          command: |
-            echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "yarn.lock" }}
@@ -110,6 +107,16 @@ jobs:
           command: yarn test
 
       - persist_to_repo_workspace
+
+  type_check:
+    executor: node-executor
+
+    steps:
+      - attach_repo_workspace
+
+      - run:
+          name: Type check
+          command: yarn run tsc --noEmit
 
   build:
     executor: node-executor
@@ -171,12 +178,18 @@ workflows:
             - Globality-Common
           requires:
             - checkout
+      - type_check:
+          context:
+            - Globality-Common
+          requires:
+            - checkout
       - build:
           context:
             - Globality-Common
           requires:
             - lint
             - test
+            - type_check
       - deploy_rc_to_npmjs:
           context:
             - Globality-Common
@@ -218,6 +231,16 @@ workflows:
               ignore: /.*/
           requires:
             - checkout
+      - type_check:
+          context:
+            - Globality-Common
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+          requires:
+            - checkout
       - build:
           context:
             - Globality-Common
@@ -228,6 +251,8 @@ workflows:
               ignore: /.*/
           requires:
             - test
+            - lint
+            - type_check
       - publish_library_to_npmjs:
           context:
             - Globality-Common
