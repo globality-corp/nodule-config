@@ -4,7 +4,6 @@ export {
   getContainer,
   getConfig,
   getMetadata,
-  resetBinding,
   getInjector,
 } from "./injector";
 export {

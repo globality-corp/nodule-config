@@ -15,15 +15,15 @@ export function getInjector(scope?: string): Bottle {
   return bottle;
 }
 
-export function getContainer(
-  target: undefined,
-  scope: undefined
-): Bottle.IContainer;
+export function getContainer(): Bottle.IContainer;
 export function getContainer<T>(target?: string, scope?: string): T;
-export function getContainer(target?: string, scope?: string) {
+export function getContainer<T = void>(
+  target?: string,
+  scope?: string
+): T | Bottle.IContainer {
   const { container } = getInjector(scope);
   if (target) {
-    return get(container, target);
+    return get(container, target) as T;
   }
   return container;
 }
@@ -36,7 +36,7 @@ export function getConfig<
   scope?: string
 ): Object.Path<Config, String.Split<Path, ".">> {
   const config = getContainer("config", scope);
-  return get(config, target);
+  return get(config, target) as Object.Path<Config, String.Split<Path, ".">>;
 }
 
 export function getDefaults(scope?: string) {
@@ -54,13 +54,4 @@ export function clearBinding(name: string, scope?: string) {
   unset(bottle.providerMap, name);
   unset(bottle.container, name);
   unset(bottle.container, `${name}Provider`);
-}
-
-/* Reset a specific binding.
- */
-export function resetBinding(name: string, scope?: string) {
-  clearBinding(name, scope);
-  const bottle = getInjector(scope);
-  // @ts-expect-error foo
-  bottle.provider(name, bottle.originalFactory[name]);
 }
