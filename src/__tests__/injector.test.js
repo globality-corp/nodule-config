@@ -1,37 +1,31 @@
-import { Bottle } from 'bottlejs';
+import { Bottle } from "bottlejs";
 
-import { getContainer, getInjector } from '../injector';
+import { getContainer, getInjector } from "../injector";
 
+describe("getInjector", () => {
+  it("should create a bottle instance", () => {
+    const bottle = getInjector();
 
-describe('getInjector', () => {
+    expect(bottle).toBeInstanceOf(Bottle);
+  });
 
-    it('should create a bottle instance', () => {
-        const bottle = getInjector();
+  it("should preserve the same bottle instance in the same scope", () => {
+    const bottle = getInjector();
 
-        expect(bottle).toBeInstanceOf(Bottle);
-    });
+    expect(getInjector()).toBe(bottle);
+  });
 
-    it('should preserve the same bottle instance in the same scope', () => {
-        const bottle = getInjector();
+  it("should return different bottle instances for different scopes", () => {
+    const bottle = getInjector();
 
-        expect(getInjector()).toBe(bottle);
-    });
-
-    it('should return different bottle instances for different scopes', () => {
-        const bottle = getInjector();
-
-        expect(getInjector('scope')).not.toBe(bottle);
-    });
-
+    expect(getInjector("scope")).not.toBe(bottle);
+  });
 });
 
+describe("getContainer", () => {
+  it("should return a container", () => {
+    const container = getContainer();
 
-describe('getContainer', () => {
-
-    it('should return a container', () => {
-        const container = getContainer();
-
-        expect(container).toBeDefined();
-    });
-
+    expect(container).toBeDefined();
+  });
 });

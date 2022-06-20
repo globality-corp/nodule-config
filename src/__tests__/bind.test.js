@@ -1,46 +1,43 @@
-import { getContainer, getInjector } from '../injector';
-import { bind, setDefaults } from '../bind';
+import { bind, setDefaults } from "../bind";
+import { getContainer, getInjector } from "../injector";
 
+describe("bind", () => {
+  it("registers a factory", () => {
+    const bottle = getInjector();
+    const { container } = bottle;
 
-describe('bind', () => {
-    it('registers a factory', () => {
-        const bottle = getInjector();
-        const { container } = bottle;
+    expect(bottle.providerMap.foo).toBeUndefined();
+    expect(container.foo).toBe(undefined);
 
-        expect(bottle.providerMap.foo).toBeUndefined();
-        expect(container.foo).toBe(undefined);
+    const factory = () => 42;
 
-        const factory = () => 42;
+    bind("foo", factory);
 
-        bind('foo', factory);
-
-        expect(bottle.providerMap.foo).toBe(true);
-        expect(container.foo).toBe(42);
-    });
+    expect(bottle.providerMap.foo).toBe(true);
+    expect(container.foo).toBe(42);
+  });
 });
 
+describe("setDefaults", () => {
+  it("sets defaults", () => {
+    const container = getContainer();
 
-describe('setDefaults', () => {
+    expect(container.defaults.foo).toBeUndefined();
 
-    it('sets defaults', () => {
-        const container = getContainer();
-
-        expect(container.defaults.foo).toBeUndefined();
-
-        setDefaults('foo', { bar: 'baz' });
-        expect(container.defaults.foo).toEqual({
-            bar: 'baz',
-        });
+    setDefaults("foo", { bar: "baz" });
+    expect(container.defaults.foo).toEqual({
+      bar: "baz",
     });
+  });
 
-    it('merges latest call', () => {
-        const container = getContainer();
+  it("merges latest call", () => {
+    const container = getContainer();
 
-        setDefaults('foo', { bar: 'baz' });
-        setDefaults('foo', { baz: 'bar' });
-        expect(container.defaults.foo).toEqual({
-            baz: 'bar',
-            bar: 'baz',
-        });
+    setDefaults("foo", { bar: "baz" });
+    setDefaults("foo", { baz: "bar" });
+    expect(container.defaults.foo).toEqual({
+      baz: "bar",
+      bar: "baz",
     });
+  });
 });
