@@ -1,128 +1,117 @@
-import AWS from 'aws-sdk-mock';
+import AWS from "aws-sdk-mock";
 
-import loadFromSecretsManager from '../secretsManager';
-import Metadata from '../../metadata';
+import Metadata from "../../metadata";
+import loadFromSecretsManager from "../secretsManager";
 
-
-describe('loadFromSecretsManager', () => {
-    it('does not call the AWS client when microcosm config is not present', async () => {
-        const getSecretSpy = jest.fn();
-        AWS.mock('SecretsManager', 'getSecretValue', (params, callback) => {
-            callback(null, {
-                SecretString: '{ "config": {} }',
-            });
-        });
-
-
-        const metadata = new Metadata({
-            name: 'test',
-            testing: true,
-            debug: true,
-        });
-        const config = await loadFromSecretsManager(metadata);
-
-        expect(config).toEqual({
-        });
-
-        expect(getSecretSpy).not.toHaveBeenCalled();
-        AWS.restore('SecretsManager');
+describe("loadFromSecretsManager", () => {
+  it("does not call the AWS client when microcosm config is not present", async () => {
+    const getSecretSpy = jest.fn();
+    AWS.mock("SecretsManager", "getSecretValue", (params, callback) => {
+      callback(null, {
+        SecretString: '{ "config": {} }',
+      });
     });
 
-    it('calls the AWS client when microcosm config not present', async () => {
-        process.env.MICROCOSM_CONFIG_VERSION = '1.0.0';
-        process.env.MICROCOSM_ENVIRONMENT = 'whatever';
+    const metadata = new Metadata({
+      name: "test",
+      testing: true,
+      debug: true,
+    });
+    const config = await loadFromSecretsManager(metadata);
 
-        AWS.mock('SecretsManager', 'getSecretValue', (params, callback) => {
-            callback(null, {
-                SecretString: '{ "config": { "test": true } }',
-            });
-        });
+    expect(config).toEqual({});
 
-        const metadata = new Metadata({
-            name: 'test',
-            testing: true,
-            debug: true,
-        });
-        const config = await loadFromSecretsManager(metadata);
+    expect(getSecretSpy).not.toHaveBeenCalled();
+    AWS.restore("SecretsManager");
+  });
 
-        expect(config).toEqual({ test: true });
+  it("calls the AWS client when microcosm config not present", async () => {
+    process.env.MICROCOSM_CONFIG_VERSION = "1.0.0";
+    process.env.MICROCOSM_ENVIRONMENT = "whatever";
 
-        AWS.restore('SecretsManager');
-
-        delete process.env.MICROCOSM_CONFIG_VERSION;
-        delete process.env.MICROCOSM_ENVIRONMENT;
+    AWS.mock("SecretsManager", "getSecretValue", (params, callback) => {
+      callback(null, {
+        SecretString: '{ "config": { "test": true } }',
+      });
     });
 
-    it('Converts booleans from the secret string', async () => {
-        process.env.MICROCOSM_CONFIG_VERSION = '1.0.0';
-        process.env.MICROCOSM_ENVIRONMENT = 'whatever';
+    const metadata = new Metadata({
+      name: "test",
+      testing: true,
+      debug: true,
+    });
+    const config = await loadFromSecretsManager(metadata);
 
-        AWS.mock('SecretsManager', 'getSecretValue', (params, callback) => {
-            callback(null, {
-                SecretString: JSON.stringify(
-                    {
-                        config:
-                        {
-                            postgres: {
-                                password: 'xyz',
-                                isDatabase: 'True',
-                            },
-                        },
-                    },
-                ),
-            });
-        });
+    expect(config).toEqual({ test: true });
 
-        const metadata = new Metadata({
-            name: 'test',
-            testing: true,
-            debug: true,
-        });
-        const config = await loadFromSecretsManager(metadata);
+    AWS.restore("SecretsManager");
 
-        expect(config.postgres.isDatabase).toEqual(true);
+    delete process.env.MICROCOSM_CONFIG_VERSION;
+    delete process.env.MICROCOSM_ENVIRONMENT;
+  });
 
-        AWS.restore('SecretsManager');
+  it("Converts booleans from the secret string", async () => {
+    process.env.MICROCOSM_CONFIG_VERSION = "1.0.0";
+    process.env.MICROCOSM_ENVIRONMENT = "whatever";
 
-        delete process.env.MICROCOSM_CONFIG_VERSION;
-        delete process.env.MICROCOSM_ENVIRONMENT;
+    AWS.mock("SecretsManager", "getSecretValue", (params, callback) => {
+      callback(null, {
+        SecretString: JSON.stringify({
+          config: {
+            postgres: {
+              password: "xyz",
+              isDatabase: "True",
+            },
+          },
+        }),
+      });
     });
 
-    it('Converts snake_cased variables from the secret string', async () => {
-        process.env.MICROCOSM_CONFIG_VERSION = '1.0.0';
-        process.env.MICROCOSM_ENVIRONMENT = 'whatever';
+    const metadata = new Metadata({
+      name: "test",
+      testing: true,
+      debug: true,
+    });
+    const config = await loadFromSecretsManager(metadata);
 
-        AWS.mock('SecretsManager', 'getSecretValue', (params, callback) => {
-            callback(null, {
-                SecretString: JSON.stringify(
-                    {
-                        config:
-                        {
-                            secret_config: {
-                                auth_token: 'xyz',
-                                store_secret: 'True',
-                            },
-                        },
-                    },
-                ),
-            });
-        });
+    expect(config.postgres.isDatabase).toEqual(true);
 
-        const metadata = new Metadata({
-            name: 'test',
-            testing: true,
-            debug: true,
-        });
-        const config = await loadFromSecretsManager(metadata);
+    AWS.restore("SecretsManager");
 
-        expect(config.secretConfig.authToken).toEqual('xyz');
-        expect(config.secretConfig.storeSecret).toEqual(true);
+    delete process.env.MICROCOSM_CONFIG_VERSION;
+    delete process.env.MICROCOSM_ENVIRONMENT;
+  });
 
-        AWS.restore('SecretsManager');
+  it("Converts snake_cased variables from the secret string", async () => {
+    process.env.MICROCOSM_CONFIG_VERSION = "1.0.0";
+    process.env.MICROCOSM_ENVIRONMENT = "whatever";
 
-        delete process.env.MICROCOSM_CONFIG_VERSION;
-        delete process.env.MICROCOSM_ENVIRONMENT;
+    AWS.mock("SecretsManager", "getSecretValue", (params, callback) => {
+      callback(null, {
+        SecretString: JSON.stringify({
+          config: {
+            secret_config: {
+              auth_token: "xyz",
+              store_secret: "True",
+            },
+          },
+        }),
+      });
     });
 
+    const metadata = new Metadata({
+      name: "test",
+      testing: true,
+      debug: true,
+    });
+    const config = await loadFromSecretsManager(metadata);
+
+    expect(config.secretConfig.authToken).toEqual("xyz");
+    expect(config.secretConfig.storeSecret).toEqual(true);
+
+    AWS.restore("SecretsManager");
+
+    delete process.env.MICROCOSM_CONFIG_VERSION;
+    delete process.env.MICROCOSM_ENVIRONMENT;
+  });
 });
-
