@@ -1,6 +1,5 @@
 import Bottle from "bottlejs";
 import { get, unset } from "lodash";
-import { Function, Object, String } from "ts-toolbelt";
 
 import { DEFAULT_SCOPE } from "./constants";
 
@@ -29,15 +28,9 @@ export function getContainer<T = void>(
   return container;
 }
 
-export function getConfig<
-  Config extends Record<string, unknown>,
-  Path extends string
->(
-  target: Function.AutoPath<Config, Path>,
-  scope?: string
-): Object.Path<Config, String.Split<Path, ".">> {
+export function getConfig<T>(target: string, scope?: string): T {
   const config = getContainer("config", scope);
-  return get(config, target) as Object.Path<Config, String.Split<Path, ".">>;
+  return get(config, target);
 }
 
 export function getDefaults(scope?: string) {
