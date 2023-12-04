@@ -7,12 +7,24 @@ import {
   loadFromObject,
   loadFromSecretsManager,
 } from "./loaders";
-import Metadata from "./metadata";
+import Metadata, { MetadataType } from "./metadata";
 
 export default class Nodule {
-  constructor(metadata, loaders = null, scope = DEFAULT_SCOPE) {
+  public metadata: Metadata;
+
+  public loaders: any[];
+
+  public scope: string;
+
+  public declassifiedLoaders: any[];
+
+  constructor(
+    metadata: MetadataType,
+    loaders: any[] = [],
+    scope: string = DEFAULT_SCOPE
+  ) {
     this.metadata = new Metadata(metadata);
-    this.loaders = loaders || [];
+    this.loaders = loaders;
     this.scope = scope;
 
     // Declassified loaders contain configuration that does not contain any secrets
@@ -21,7 +33,7 @@ export default class Nodule {
     bind("metadata", () => this.metadata);
   }
 
-  from(value, classified = false) {
+  from(value: any, classified = false) {
     this.loaders.push(value);
     if (!classified) {
       this.declassifiedLoaders.push(value);
@@ -37,12 +49,12 @@ export default class Nodule {
     return this.from(loadFromEnvironment);
   }
 
-  fromObject(obj) {
+  fromObject(obj: any) {
     return this.from(loadFromObject(obj));
   }
 
-  load() {
-    const { defaults, metadata } = getContainer(null, this.scope);
+  async load() {
+    const { defaults, metadata } = getContainer(undefined, this.scope);
 
     // NB: This can be further optimized to load each loader only once
     const loader = loadEach(loadFromObject(defaults), ...this.loaders);
