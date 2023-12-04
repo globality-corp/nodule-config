@@ -3,6 +3,7 @@ import { loadFromObject } from "../loaders";
 import Nodule from "../nodule";
 
 describe("Nodule", () => {
+  /** @type {any} */
   let nodule;
 
   beforeEach(() => {

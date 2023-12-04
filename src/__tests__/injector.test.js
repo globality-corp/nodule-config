@@ -1,4 +1,4 @@
-import { Bottle } from "bottlejs";
+import Bottle from "bottlejs";
 
 import { getContainer, getInjector } from "../injector";
 

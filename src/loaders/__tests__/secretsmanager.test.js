@@ -6,11 +6,15 @@ import loadFromSecretsManager from "../secretsManager";
 describe("loadFromSecretsManager", () => {
   it("does not call the AWS client when microcosm config is not present", async () => {
     const getSecretSpy = jest.fn();
-    AWS.mock("SecretsManager", "getSecretValue", (params, callback) => {
-      callback(null, {
-        SecretString: '{ "config": {} }',
-      });
-    });
+    AWS.mock(
+      "SecretsManager",
+      "getSecretValue",
+      (/** @type {any} */ _params, /** @type {any} */ callback) => {
+        callback(null, {
+          SecretString: '{ "config": {} }',
+        });
+      }
+    );
 
     const metadata = new Metadata({
       name: "test",
@@ -29,11 +33,15 @@ describe("loadFromSecretsManager", () => {
     process.env.MICROCOSM_CONFIG_VERSION = "1.0.0";
     process.env.MICROCOSM_ENVIRONMENT = "whatever";
 
-    AWS.mock("SecretsManager", "getSecretValue", (params, callback) => {
-      callback(null, {
-        SecretString: '{ "config": { "test": true } }',
-      });
-    });
+    AWS.mock(
+      "SecretsManager",
+      "getSecretValue",
+      (/** @type {any} */ _params, /** @type {any} */ callback) => {
+        callback(null, {
+          SecretString: '{ "config": { "test": true } }',
+        });
+      }
+    );
 
     const metadata = new Metadata({
       name: "test",
@@ -54,18 +62,22 @@ describe("loadFromSecretsManager", () => {
     process.env.MICROCOSM_CONFIG_VERSION = "1.0.0";
     process.env.MICROCOSM_ENVIRONMENT = "whatever";
 
-    AWS.mock("SecretsManager", "getSecretValue", (params, callback) => {
-      callback(null, {
-        SecretString: JSON.stringify({
-          config: {
-            postgres: {
-              password: "xyz",
-              isDatabase: "True",
+    AWS.mock(
+      "SecretsManager",
+      "getSecretValue",
+      (/** @type {any} */ _params, /** @type {any} */ callback) => {
+        callback(null, {
+          SecretString: JSON.stringify({
+            config: {
+              postgres: {
+                password: "xyz",
+                isDatabase: "True",
+              },
             },
-          },
-        }),
-      });
-    });
+          }),
+        });
+      }
+    );
 
     const metadata = new Metadata({
       name: "test",
@@ -74,6 +86,7 @@ describe("loadFromSecretsManager", () => {
     });
     const config = await loadFromSecretsManager(metadata);
 
+    // @ts-ignore
     expect(config.postgres.isDatabase).toEqual(true);
 
     AWS.restore("SecretsManager");
@@ -86,18 +99,22 @@ describe("loadFromSecretsManager", () => {
     process.env.MICROCOSM_CONFIG_VERSION = "1.0.0";
     process.env.MICROCOSM_ENVIRONMENT = "whatever";
 
-    AWS.mock("SecretsManager", "getSecretValue", (params, callback) => {
-      callback(null, {
-        SecretString: JSON.stringify({
-          config: {
-            secret_config: {
-              auth_token: "xyz",
-              store_secret: "True",
+    AWS.mock(
+      "SecretsManager",
+      "getSecretValue",
+      (/** @type {any} */ _params, /** @type {any} */ callback) => {
+        callback(null, {
+          SecretString: JSON.stringify({
+            config: {
+              secret_config: {
+                auth_token: "xyz",
+                store_secret: "True",
+              },
             },
-          },
-        }),
-      });
-    });
+          }),
+        });
+      }
+    );
 
     const metadata = new Metadata({
       name: "test",
@@ -106,7 +123,9 @@ describe("loadFromSecretsManager", () => {
     });
     const config = await loadFromSecretsManager(metadata);
 
+    // @ts-ignore
     expect(config.secretConfig.authToken).toEqual("xyz");
+    // @ts-ignore
     expect(config.secretConfig.storeSecret).toEqual(true);
 
     AWS.restore("SecretsManager");

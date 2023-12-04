@@ -6,6 +6,7 @@ describe("bind", () => {
     const bottle = getInjector();
     const { container } = bottle;
 
+    // @ts-ignore
     expect(bottle.providerMap.foo).toBeUndefined();
     expect(container.foo).toBe(undefined);
 
@@ -13,6 +14,7 @@ describe("bind", () => {
 
     bind("foo", factory);
 
+    // @ts-ignore
     expect(bottle.providerMap.foo).toBe(true);
     expect(container.foo).toBe(42);
   });
