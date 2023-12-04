@@ -1,11 +1,11 @@
 import { merge } from "lodash";
 
-export function loadFromObject(object) {
+export function loadFromObject(object: any) {
   return () => object;
 }
 
-export function loadEach(...loaders) {
-  return async (metadata) => {
+export function loadEach(...loaders: Array<(metadata: any) => any>) {
+  return async (metadata: any) => {
     const resolved = await Promise.all(
       loaders.map((loader) => loader(metadata))
     );
