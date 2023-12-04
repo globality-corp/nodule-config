@@ -6,7 +6,7 @@ describe("bind", () => {
     const bottle = getInjector();
     const { container } = bottle;
 
-    // @ts-ignore
+    // @ts-expect-error the typings are not smart enough to know it exists
     expect(bottle.providerMap.foo).toBeUndefined();
     expect(container.foo).toBe(undefined);
 
@@ -14,7 +14,7 @@ describe("bind", () => {
 
     bind("foo", factory);
 
-    // @ts-ignore
+    // @ts-expect-error the typings are not smart enough to know it exists
     expect(bottle.providerMap.foo).toBe(true);
     expect(container.foo).toBe(42);
   });
