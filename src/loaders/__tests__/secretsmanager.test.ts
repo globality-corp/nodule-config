@@ -9,7 +9,7 @@ describe("loadFromSecretsManager", () => {
     AWS.mock(
       "SecretsManager",
       "getSecretValue",
-      (/** @type {any} */ _params, /** @type {any} */ callback) => {
+      (_params: any, callback: any) => {
         callback(null, {
           SecretString: '{ "config": {} }',
         });
@@ -36,7 +36,7 @@ describe("loadFromSecretsManager", () => {
     AWS.mock(
       "SecretsManager",
       "getSecretValue",
-      (/** @type {any} */ _params, /** @type {any} */ callback) => {
+      (_params: any, callback: any) => {
         callback(null, {
           SecretString: '{ "config": { "test": true } }',
         });
@@ -65,7 +65,7 @@ describe("loadFromSecretsManager", () => {
     AWS.mock(
       "SecretsManager",
       "getSecretValue",
-      (/** @type {any} */ _params, /** @type {any} */ callback) => {
+      (_params: any, callback: any) => {
         callback(null, {
           SecretString: JSON.stringify({
             config: {
@@ -102,7 +102,7 @@ describe("loadFromSecretsManager", () => {
     AWS.mock(
       "SecretsManager",
       "getSecretValue",
-      (/** @type {any} */ _params, /** @type {any} */ callback) => {
+      (_params: any, callback: any) => {
         callback(null, {
           SecretString: JSON.stringify({
             config: {
