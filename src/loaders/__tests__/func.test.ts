@@ -1,10 +1,7 @@
 import Metadata from "../../metadata";
 import { loadEach, loadFromObject } from "../func";
 
-/**
- * @param {any} config
- */
-function loadFromObjectAsync(config) {
+function loadFromObjectAsync(config: any) {
   return async () => Promise.resolve(config);
 }
 
