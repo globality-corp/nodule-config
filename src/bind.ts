@@ -1,12 +1,20 @@
+import type { IContainer } from "bottlejs";
 import { merge, set } from "lodash";
 
 import { DEFAULT_SCOPE } from "./constants";
 import { getDefaults, getInjector } from "./injector";
 
-export function bind(name, factory, scope = DEFAULT_SCOPE) {
+/**
+ * @returns {boolean} `true` if the name was bound to the factory, `false` if it was already bound
+ * */
+export function bind(
+  name: string,
+  factory: (container: IContainer<string>) => any,
+  scope: string = DEFAULT_SCOPE
+): boolean {
   const bottle = getInjector(scope);
 
-  if (!bottle.providerMap[name]) {
+  if (!(name in bottle.providerMap)) {
     bottle.factory(name, factory);
     return true;
   }
@@ -18,7 +26,11 @@ function initDefaults() {
   return {};
 }
 
-export function setDefaults(name, object, scope = DEFAULT_SCOPE) {
+export function setDefaults(
+  name: string,
+  object: any,
+  scope: string = DEFAULT_SCOPE
+) {
   bind("defaults", initDefaults);
 
   const defaults = getDefaults(scope);

@@ -1,6 +1,6 @@
 {
     "name": "@globality/nodule-config",
-    "version": "2.14.0",
+    "version": "2.15.0",
     "description": "Opinionated configuration for Node application",
     "main": "lib/",
     "repository": "https://github.com/globality-corp/nodule-config",
@@ -20,7 +20,9 @@
     },
     "devDependencies": {
         "@globality/gi-eslint-config": "^1.0.15",
+        "@types/jest": "^29.5.10",
         "@types/lodash": "^4.14.182",
+        "@types/node": "^14.17.6",
         "aws-sdk-mock": "^5.1.0",
         "jest": "27.x",
         "ts-jest": "^27.1.4",

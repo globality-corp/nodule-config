@@ -3,7 +3,7 @@ import { loadFromObject } from "../loaders";
 import Nodule from "../nodule";
 
 describe("Nodule", () => {
-  let nodule;
+  let nodule: Nodule;
 
   beforeEach(() => {
     nodule = Nodule.testing();

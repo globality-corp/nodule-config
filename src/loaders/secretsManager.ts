@@ -1,5 +1,6 @@
 import AWS from "aws-sdk";
 import { camelCase } from "lodash";
+import Metadata from "src/metadata";
 
 import { CREDSTASH_PREFIX } from "../constants";
 
@@ -13,10 +14,10 @@ export function getClient() {
   });
 }
 
-function convertValues(obj) {
+function convertValues(obj: any) {
   if (typeof obj !== "object") return convert(obj);
 
-  const newObj = {};
+  const newObj: Record<string, string> = {};
 
   Object.keys(obj).forEach((name) => {
     newObj[camelCase(name)] = convertValues(obj[name]);
@@ -25,7 +26,7 @@ function convertValues(obj) {
   return newObj;
 }
 
-function getEnvVarValueOrFail(metadata, envVarName) {
+function getEnvVarValueOrFail(metadata: Metadata, envVarName: string) {
   const value = process.env[envVarName];
 
   if (!value && !metadata.debug) {
@@ -36,7 +37,7 @@ function getEnvVarValueOrFail(metadata, envVarName) {
   return value;
 }
 
-export default async function loadFromSecretsManager(metadata) {
+export default async function loadFromSecretsManager(metadata: Metadata) {
   const version = getEnvVarValueOrFail(
     metadata,
     `${CREDSTASH_PREFIX}_CONFIG_VERSION`
@@ -67,6 +68,7 @@ export default async function loadFromSecretsManager(metadata) {
         if (err) {
           reject(err);
         }
+        // @ts-expect-error this should be addressed
         resolve(convertValues(JSON.parse(data.SecretString).config));
       }
     );

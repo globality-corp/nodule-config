@@ -3,7 +3,7 @@ import { loadFromObject } from "../loaders";
 import Nodule from "../nodule";
 
 describe("Nodule Classified Config", () => {
-  let nodule;
+  let nodule: Nodule;
 
   beforeEach(async () => {
     nodule = Nodule.testing();

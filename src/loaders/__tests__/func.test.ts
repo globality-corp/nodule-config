@@ -1,7 +1,7 @@
 import Metadata from "../../metadata";
 import { loadEach, loadFromObject } from "../func";
 
-function loadFromObjectAsync(config) {
+function loadFromObjectAsync(config: any) {
   return async () => Promise.resolve(config);
 }
 
@@ -13,9 +13,7 @@ describe("loadFromObject", () => {
         baz: "foo",
       },
     };
-    expect(loadFromObject(config)(new Metadata({ name: "test" }))).toEqual(
-      config
-    );
+    expect(loadFromObject(config)()).toEqual(config);
   });
 });
 

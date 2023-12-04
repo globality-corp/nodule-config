@@ -1,16 +1,17 @@
 import { merge } from "lodash";
+import Metadata from "src/metadata";
 
 import { SEPARATOR } from "../constants";
 
 import toObject from "./convert";
 
-/* Load configuration from environment variables.
- *
+/**
+ * Load configuration from environment variables.
  *  - Filters out configuration that does not match the metdata name.
  *  - Expands keys into to nested objects
  *  - Converts values to booleans
- */
-export default function loadFromEnvironment(metadata) {
+ * */
+export default function loadFromEnvironment(metadata: Metadata) {
   const keys = Object.keys(process.env);
   const regex = new RegExp(`^${metadata.name.toUpperCase()}${SEPARATOR}`, "g");
   return keys
