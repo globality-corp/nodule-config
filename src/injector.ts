@@ -16,6 +16,10 @@ export function getInjector(scope?: string): Bottle {
 }
 
 export function getContainer(): Bottle.IContainer;
+export function getContainer(
+  target?: string,
+  scope?: string
+): Bottle.IContainer;
 export function getContainer<T>(target?: string, scope?: string): T;
 export function getContainer<T = void>(
   target?: string,
