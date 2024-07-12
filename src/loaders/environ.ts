@@ -1,5 +1,5 @@
 import { merge } from "lodash";
-import Metadata from "src/metadata";
+import Metadata from "../metadata";
 
 import { SEPARATOR } from "../constants";
 

@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 import { camelCase } from "lodash";
-import Metadata from "src/metadata";
+import Metadata from "../metadata";
 
 import { CREDSTASH_PREFIX } from "../constants";
 
