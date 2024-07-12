@@ -1,7 +1,7 @@
 import { merge } from "lodash";
-import Metadata from "../metadata";
 
 import { SEPARATOR } from "../constants";
+import Metadata from "../metadata";
 
 import toObject from "./convert";
 
