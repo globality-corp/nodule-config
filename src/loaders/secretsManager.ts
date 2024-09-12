@@ -1,4 +1,5 @@
-import AWS from "aws-sdk";
+import { SecretsManager } from "@aws-sdk/client-secrets-manager";
+
 import { camelCase } from "lodash";
 
 import { CREDSTASH_PREFIX } from "../constants";
@@ -9,7 +10,7 @@ import { convert } from "./convert";
 export function getClient() {
   const awsRegion = process.env.AWS_DEFAULT_REGION || process.env.AWS_REGION;
 
-  return new AWS.SecretsManager({
+  return new SecretsManager({
     region: awsRegion,
   });
 }
