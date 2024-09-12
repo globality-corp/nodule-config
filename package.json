@@ -16,7 +16,6 @@
     "types": "./lib/index.d.ts",
     "dependencies": {
         "@aws-sdk/client-secrets-manager": "^3.650.0",
-        "aws-sdk": "^2.1658.0",
         "bottlejs": "1.7.2",
         "lodash": "^4.17.21"
     },
