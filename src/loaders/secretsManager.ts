@@ -1,4 +1,8 @@
-import AWS from "aws-sdk";
+import {
+  GetSecretValueCommand,
+  SecretsManagerClient,
+} from "@aws-sdk/client-secrets-manager";
+
 import { camelCase } from "lodash";
 
 import { CREDSTASH_PREFIX } from "../constants";
@@ -9,7 +13,7 @@ import { convert } from "./convert";
 export function getClient() {
   const awsRegion = process.env.AWS_DEFAULT_REGION || process.env.AWS_REGION;
 
-  return new AWS.SecretsManager({
+  return new SecretsManagerClient({
     region: awsRegion,
   });
 }
@@ -37,7 +41,10 @@ function getEnvVarValueOrFail(metadata: Metadata, envVarName: string) {
   return value;
 }
 
-export default async function loadFromSecretsManager(metadata: Metadata) {
+export default async function loadFromSecretsManager(
+  metadata: Metadata,
+  clientOverride?: SecretsManagerClient
+) {
   const version = getEnvVarValueOrFail(
     metadata,
     `${CREDSTASH_PREFIX}_CONFIG_VERSION`
@@ -56,23 +63,12 @@ export default async function loadFromSecretsManager(metadata: Metadata) {
   }
 
   const secretId = `secrets/${environment}/${metadata.name}`;
-  const client = getClient();
+  const client = clientOverride ?? getClient();
 
-  const secrets = await new Promise((resolve, reject) => {
-    client.getSecretValue(
-      {
-        SecretId: secretId,
-        VersionStage: version,
-      },
-      (err, data) => {
-        if (err) {
-          reject(err);
-        }
-        // @ts-expect-error this should be addressed
-        resolve(convertValues(JSON.parse(data.SecretString).config));
-      }
-    );
-  });
+  const result = await client.send(
+    new GetSecretValueCommand({ SecretId: secretId, VersionStage: version })
+  );
 
-  return secrets;
+  // @ts-expect-error this should be addressed
+  return convertValues(JSON.parse(result.SecretString).config);
 }
