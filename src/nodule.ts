@@ -1,13 +1,13 @@
-import { bind } from "./bind";
-import { DEFAULT_SCOPE } from "./constants";
-import { getContainer } from "./injector";
+import { bind } from "./bind.js";
+import { DEFAULT_SCOPE } from "./constants.js";
+import { getContainer } from "./injector.js";
 import {
   loadEach,
   loadFromEnvironment,
   loadFromObject,
   loadFromSecretsManager,
-} from "./loaders";
-import Metadata, { MetadataType } from "./metadata";
+} from "./loaders/index.js";
+import Metadata, { type MetadataType } from "./metadata.js";
 
 export default class Nodule {
   public metadata: Metadata;

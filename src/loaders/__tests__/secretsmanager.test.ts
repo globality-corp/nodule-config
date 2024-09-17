@@ -4,8 +4,8 @@ import {
 } from "@aws-sdk/client-secrets-manager";
 import { mockClient } from "aws-sdk-client-mock";
 
-import Metadata from "../../metadata";
-import loadFromSecretsManager from "../secretsManager";
+import Metadata from "../../metadata.js";
+import loadFromSecretsManager from "../secretsManager.js";
 
 describe("loadFromSecretsManager", () => {
   const client = new SecretsManagerClient({});

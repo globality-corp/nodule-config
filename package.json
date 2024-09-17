@@ -1,15 +1,20 @@
 {
     "name": "@globality/nodule-config",
-    "version": "2.16.0",
+    "version": "3.0.0",
     "description": "Opinionated configuration for Node application",
-    "main": "lib/",
+    "main": "lib/index.js",
+    "type": "module",
+    "files": [
+        "lib"
+    ],
     "repository": "https://github.com/globality-corp/nodule-config",
     "scripts": {
         "build": "yarn tsc --declaration --declarationMap -p tsconfig.build.json",
         "lint": "gi-eslint-run lint",
         "lint:fix": "gi-eslint-run lint --fix",
-        "test": "jest src --runInBand",
-        "verify": "yarn lint && yarn test"
+        "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest src --runInBand",
+        "verify": "yarn lint && yarn test",
+        "typecheck": "tsc --noEmit"
     },
     "author": "Globality Engineering",
     "license": "MIT",
@@ -17,17 +22,18 @@
     "dependencies": {
         "@aws-sdk/client-secrets-manager": "^3.650.0",
         "bottlejs": "1.7.2",
-        "lodash": "^4.17.21"
+        "lodash-es": "^4.17.21"
     },
     "devDependencies": {
         "@globality/gi-eslint-config": "^1.0.15",
-        "@types/jest": "^29.5.10",
-        "@types/lodash": "^4.14.182",
+        "@total-typescript/tsconfig": "^1.0.4",
+        "@types/jest": "^29.5.13",
+        "@types/lodash-es": "^4.17.12",
         "@types/node": "^14.17.6",
         "aws-sdk-client-mock": "^4.0.1",
-        "jest": "27.x",
-        "ts-jest": "^27.1.4",
-        "typescript": "^4.6.3"
+        "jest": "^29.7.0",
+        "ts-jest": "^29.2.5",
+        "typescript": "^5.6.2"
     },
     "resolutions": {
         "mem": "^5.1.1",

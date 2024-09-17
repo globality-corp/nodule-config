@@ -45,6 +45,7 @@ steps:
     <<: *image
     commands:
       - yarn lint
+      - yarn typecheck
     depends_on:
       - install-node-dependencies
 

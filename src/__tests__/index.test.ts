@@ -1,4 +1,4 @@
-import { get } from "lodash";
+import { get } from "lodash-es";
 
 import {
   bind,
@@ -7,7 +7,7 @@ import {
   loadFromObject,
   Nodule,
   setDefaults,
-} from "..";
+} from "../index.js";
 
 describe("api", () => {
   beforeEach(() => {

@@ -1,6 +1,6 @@
-import { getInjector } from "../injector";
-import { loadFromObject } from "../loaders";
-import Nodule from "../nodule";
+import { getInjector } from "../injector.js";
+import { loadFromObject } from "../loaders/index.js";
+import Nodule from "../nodule.js";
 
 describe("Nodule", () => {
   let nodule: Nodule;

@@ -1,9 +1,9 @@
-import { merge } from "lodash";
+import { merge } from "lodash-es";
 
-import { SEPARATOR } from "../constants";
-import Metadata from "../metadata";
+import { SEPARATOR } from "../constants.js";
+import Metadata from "../metadata.js";
 
-import toObject from "./convert";
+import toObject from "./convert.js";
 
 /**
  * Load configuration from environment variables.
