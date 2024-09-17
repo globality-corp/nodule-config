@@ -1,5 +1,5 @@
 {
-  "extends": "@total-typescript/tsconfig/tsc/no-dom/library",
+  "extends": "./node_modules/@total-typescript/tsconfig/tsc/no-dom/library.json",
   "compilerOptions": {
     "rootDir": "src",
     "baseUrl": ".",
