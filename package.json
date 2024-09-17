@@ -13,7 +13,8 @@
         "lint": "gi-eslint-run lint",
         "lint:fix": "gi-eslint-run lint --fix",
         "test": "jest src --runInBand",
-        "verify": "yarn lint && yarn test"
+        "verify": "yarn lint && yarn test",
+        "typecheck": "tsc --noEmit"
     },
     "author": "Globality Engineering",
     "license": "MIT",
