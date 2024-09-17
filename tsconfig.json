@@ -3,14 +3,11 @@
     "rootDir": "src",
     "baseUrl": ".",
     "outDir": "./lib",
-    "lib": [
-      "es5",
-      "es6",
-      "dom"
-    ],
+    "lib": ["ES2022"],
     "declaration": true,
-    "module": "commonjs",
-    "target": "es6",
+    "module": "NodeNext",
+    "moduleDetection": "force",
+    "target": "ES2022",
     "noImplicitAny": true,
     "removeComments": false,
     "allowJs": true,
@@ -21,16 +18,11 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "tsBuildInfoFile": "lib/.tsbuildinfo",
-    "types": [
-      "jest",
-      "node"
-    ],
+    "types": ["jest", "node"],
     "sourceMap": true,
     "strict": true,
     "skipLibCheck": true
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "$schema": "https://json.schemastore.org/tsconfig"
 }
