@@ -3,6 +3,9 @@
     "version": "2.16.0",
     "description": "Opinionated configuration for Node application",
     "main": "lib/",
+    "files": [
+        "lib"
+    ],
     "repository": "https://github.com/globality-corp/nodule-config",
     "scripts": {
         "build": "yarn tsc --declaration --declarationMap -p tsconfig.build.json",
