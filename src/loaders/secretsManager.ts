@@ -3,7 +3,7 @@ import {
   SecretsManagerClient,
 } from "@aws-sdk/client-secrets-manager";
 
-import { camelCase } from "lodash";
+import { camelCase } from "lodash-es";
 
 import { CREDSTASH_PREFIX } from "../constants.js";
 import Metadata from "../metadata.js";

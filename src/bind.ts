@@ -1,5 +1,5 @@
 import type { IContainer } from "bottlejs";
-import { merge, set } from "lodash";
+import { merge, set } from "lodash-es";
 
 import { DEFAULT_SCOPE } from "./constants.js";
 import { getDefaults, getInjector } from "./injector.js";

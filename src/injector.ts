@@ -1,5 +1,5 @@
 import Bottle from "bottlejs";
-import { get, unset } from "lodash";
+import { get, unset } from "lodash-es";
 
 import { DEFAULT_SCOPE } from "./constants.js";
 

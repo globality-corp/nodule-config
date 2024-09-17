@@ -1,4 +1,4 @@
-import { camelCase, set } from "lodash";
+import { camelCase, set } from "lodash-es";
 
 import { SEPARATOR } from "../constants.js";
 
