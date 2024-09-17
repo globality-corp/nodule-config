@@ -3,6 +3,7 @@
     "version": "2.16.0",
     "description": "Opinionated configuration for Node application",
     "main": "lib/",
+    "type": "module",
     "files": [
         "lib"
     ],
