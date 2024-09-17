@@ -24,6 +24,7 @@
     },
     "devDependencies": {
         "@globality/gi-eslint-config": "^1.0.15",
+        "@total-typescript/tsconfig": "^1.0.4",
         "@types/jest": "^29.5.10",
         "@types/lodash": "^4.14.182",
         "@types/node": "^14.17.6",
