@@ -12,7 +12,7 @@
         "build": "yarn tsc --declaration --declarationMap -p tsconfig.build.json",
         "lint": "gi-eslint-run lint",
         "lint:fix": "gi-eslint-run lint --fix",
-        "test": "jest src --runInBand",
+        "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest src --runInBand",
         "verify": "yarn lint && yarn test",
         "typecheck": "tsc --noEmit"
     },
