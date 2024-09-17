@@ -5,10 +5,10 @@ import {
 
 import { camelCase } from "lodash";
 
-import { CREDSTASH_PREFIX } from "../constants";
-import Metadata from "../metadata";
+import { CREDSTASH_PREFIX } from "../constants.js";
+import Metadata from "../metadata.js";
 
-import { convert } from "./convert";
+import { convert } from "./convert.js";
 
 export function getClient() {
   const awsRegion = process.env.AWS_DEFAULT_REGION || process.env.AWS_REGION;

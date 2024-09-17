@@ -1,6 +1,6 @@
 import Bottle from "bottlejs";
 
-import { getContainer, getInjector } from "../injector";
+import { getContainer, getInjector } from "../injector.js";
 
 describe("getInjector", () => {
   it("should create a bottle instance", () => {

@@ -1,7 +1,7 @@
 import Bottle from "bottlejs";
 import { get, unset } from "lodash";
 
-import { DEFAULT_SCOPE } from "./constants";
+import { DEFAULT_SCOPE } from "./constants.js";
 
 export function getInjector(scope?: string): Bottle {
   const key = scope || DEFAULT_SCOPE;

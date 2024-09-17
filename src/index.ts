@@ -1,16 +1,16 @@
-export { bind, setDefaults } from "./bind";
+export { bind, setDefaults } from "./bind.js";
 export {
   clearBinding,
   getContainer,
   getConfig,
   getMetadata,
   getInjector,
-} from "./injector";
+} from "./injector.js";
 export {
   loadEach,
   loadFromSecretsManager,
   loadFromEnvironment,
   loadFromObject,
-} from "./loaders";
-export { default as Nodule } from "./nodule";
-export { default as Metadata } from "./metadata";
+} from "./loaders/index.js";
+export { default as Nodule } from "./nodule.js";
+export { default as Metadata } from "./metadata.js";
